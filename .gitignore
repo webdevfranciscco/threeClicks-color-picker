@@ -1,0 +1,9 @@
+
+
+# macOS system-created files
+.DS_STORE
+
+# files created by Mac when a folder is nor on an HFS disk (e.g. my eternal ssd)
+._*
+
+threeClicks-to-do-list.txt
