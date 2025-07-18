@@ -1,0 +1,28 @@
+section {
+  align-content: center;
+}
+
+#palette {
+  height: 50vw;
+  display: grid;
+  grid-template-columns: repeat(17, 5%);
+  grid-template-rows: repeat(17, 5%);
+  font-size: 0.7rem;
+}
+
+.cell {
+  list-style: none;
+  text-align: center;
+}
+
+#blob-285 {
+  background-color: hsl(285, 100%, 50%);
+}
+
+#empty {
+  background-color: hsl(0, 100%, 100%);
+}
+
+#empty {
+  background-color: hsla(0, 100%, 100%, 0);
+}
