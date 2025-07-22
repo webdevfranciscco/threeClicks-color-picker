@@ -5,313 +5,323 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>threeClicks Color Picker</title>
-    <link href="normalize.css" rel="stylesheet" />
+
     <link href="style-palette.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet" />
   </head>
 
   <body>
     <header>
-      <h1>3 TreeClicks Color Picker</h1>
-      <h3>Quick Color Selector for Rapid Prototyping</h3>
+      <h1>treeClicks Color Picker</h1>
+      <h2>Quick Color Selector for Rapid Prototyping</h2>
     </header>
-    <section id="color-values">
-      <div>HSL = (<span id="hue">279</span>, <span id="saturation">70</span>% <spanid="luminosity">40</span>%)</div>
-      <div>HEX = #<span>78</span><span>29</span><span>a3</span></div>
+    <section id="color-values-container">
+      <div id="color-values">
+        <div>
+          <p>
+            HSL = (<span id="hue">279</span>, <span id="saturation">70</span>%
+            <span id="luminosity">40</span>%)
+          </p>
+        </div>
+
+        <div id="large-blob"></div>
+
+        <div>
+          <p>HEX = #<span>78</span><span>29</span><span>a3</span></p>
+        </div>
+      </div>
     </section>
     <section id="color-space">
-      <div id="board">
-        <div id="palette">
-          <div class="cell empty"><p></p></div>
-          <div class="cell horizontal-text"><p>285</p></div>
-          <div class="cell horizontal-text"><p>286</p></div>
-          <div class="cell horizontal-text"><p>287</p></div>
-          <div class="cell horizontal-text"><p>288</p></div>
-          <div class="cell horizontal-text"><p>289</p></div>
-          <div class="cell horizontal-text"><p>290</p></div>
-          <div class="cell horizontal-text"><p>291</p></div>
-          <div class="cell horizontal-text"><p>292</p></div>
-          <div class="cell horizontal-text"><p>293</p></div>
-          <div class="cell horizontal-text"><p>294</p></div>
-          <div class="cell horizontal-text"><p>295</p></div>
-          <div class="cell horizontal-text"><p>296</p></div>
-          <div class="cell horizontal-text"><p>297</p></div>
-          <div class="cell horizontal-text"><p>298</p></div>
-          <div class="cell horizontal-text"><p>299</p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-single-285" ><p></p></div>
-          <div class="cell blob" id="blob-single-286" ><p></p></div>
-          <div class="cell blob" id="blob-single-287" ><p></p></div>
-          <div class="cell blob" id="blob-single-288" ><p></p></div>
-          <div class="cell blob" id="blob-single-289" ><p></p></div>
-          <div class="cell blob" id="blob-single-290" ><p></p></div>
-          <div class="cell blob" id="blob-single-291" ><p></p></div>
-          <div class="cell blob" id="blob-single-292" ><p></p></div>
-          <div class="cell blob" id="blob-single-293" ><p></p></div>
-          <div class="cell blob" id="blob-single-294" ><p></p></div>
-          <div class="cell blob" id="blob-single-295" ><p></p></div>
-          <div class="cell blob" id="blob-single-296" ><p></p></div>
-          <div class="cell blob" id="blob-single-297" ><p></p></div>
-          <div class="cell blob" id="blob-single-298" ><p></p></div>
-          <div class="cell blob" id="blob-single-299" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell vertical-text"><p>284</p></div>
-          <div class="cell blob" id="blob-single-284" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell horizontal-text"><p>180</p></div>
-          <div class="cell horizontal-text"><p>195</p></div>
-          <div class="cell horizontal-text"><p>210</p></div>
-          <div class="cell horizontal-text"><p>225</p></div>
-          <div class="cell horizontal-text"><p>240</p></div>
-          <div class="cell horizontal-text"><p>255</p></div>
-          <div class="cell horizontal-text"><p>270</p></div>
-          <div class="cell horizontal-text"><p>285</p></div>
-          <div class="cell horizontal-text"><p>300</p></div>
-          <div class="cell horizontal-text"><p>315</p></div>
-          <div class="cell horizontal-text"><p>330</p></div>
-          <div class="cell horizontal-text"><p>345</p></div>
-          <div class="cell horizontal-text"><p>360</p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell vertical-text"><p>283</p></div>
-          <div class="cell blob" id="blob-single-283" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-group-180" ><p></p></div>
-          <div class="cell blob" id="blob-group-195" ><p></p></div>
-          <div class="cell blob" id="blob-group-210" ><p></p></div>
-          <div class="cell blob" id="blob-group-225" ><p></p></div>
-          <div class="cell blob" id="blob-group-240" ><p></p></div>
-          <div class="cell blob" id="blob-group-255" ><p></p></div>
-          <div class="cell blob" id="blob-group-270" ><p></p></div>
-          <div class="cell blob" id="blob-group-285" ><p></p></div>
-          <div class="cell blob" id="blob-group-300" ><p></p></div>
-          <div class="cell blob" id="blob-group-315" ><p></p></div>
-          <div class="cell blob" id="blob-group-330" ><p></p></div>
-          <div class="cell blob" id="blob-group-345" ><p></p></div>
-          <div class="cell blob" id="blob-group-360" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell vertical-text"><p>282</p></div>
-          <div class="cell blob" id="blob-single-282" ><p></p></div>
-          <div class="cell vertical-text"><p>165</p></div>
-          <div class="cell blob" id="blob-group-165" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell vertical-text"><p>281</p></div>
-          <div class="cell blob" id="blob-single-281" ><p></p></div>
-          <div class="cell vertical-text"><p>150</p></div>
-          <div class="cell blob" id="blob-group-150" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-100000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-100100" ><p></p></div>
-          <div class="cell vertical-text"><p>100</p></div>
-          <div class="cell vertical-text"><p>280</p></div>
-          <div class="cell blob" id="blob-single-280" ><p></p></div>
-          <div class="cell vertical-text"><p>135</p></div>
-          <div class="cell blob" id="blob-group-135" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-090000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-090100" ><p></p></div>
-          <div class="cell vertical-text"><p>90</p></div>
-          <div class="cell vertical-text"><p>279</p></div>
-          <div class="cell blob" id="blob-single-279" ><p></p></div>
-          <div class="cell vertical-text"><p>120</p></div>
-          <div class="cell blob" id="blob-group-120" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-080000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-080100" ><p></p></div>
-          <div class="cell vertical-text"><p>80</p></div>
-          <div class="cell vertical-text"><p>278</p></div>
-          <div class="cell blob" id="blob-single-278" ><p></p></div>
-          <div class="cell vertical-text"><p>105</p></div>
-          <div class="cell blob" id="blob-group-105" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-070000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-070100" ><p></p></div>
-          <div class="cell vertical-text"><p>70</p></div>
-          <div class="cell vertical-text"><p>277</p></div>
-          <div class="cell blob" id="blob-single-277" ><p></p></div>
-          <div class="cell vertical-text"><p>90</p></div>
-          <div class="cell blob" id="blob-group-90" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-060000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-060100" ><p></p></div>
-          <div class="cell vertical-text"><p>60</p></div>
-          <div class="cell vertical-text"><p>276</p></div>
-          <div class="cell blob" id="blob-single-276" ><p></p></div>
-          <div class="cell vertical-text"><p>75</p></div>
-          <div class="cell blob" id="blob-group-75" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-050000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-050100" ><p></p></div>
-          <div class="cell vertical-text"><p>50</p></div>
-          <div class="cell vertical-text"><p>275</p></div>
-          <div class="cell blob" id="blob-single-275" ><p></p></div>
-          <div class="cell vertical-text"><p>60</p></div>
-          <div class="cell blob" id="blob-group-60" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-040000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-040100" ><p></p></div>
-          <div class="cell vertical-text"><p>40</p></div>
-          <div class="cell vertical-text"><p>274</p></div>
-          <div class="cell blob" id="blob-single-274" ><p></p></div>
-          <div class="cell vertical-text"><p>45</p></div>
-          <div class="cell blob" id="blob-group-45" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-030000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-030100" ><p></p></div>
-          <div class="cell vertical-text"><p>30</p></div>
-          <div class="cell vertical-text"><p>273</p></div>
-          <div class="cell blob" id="blob-single-273" ><p></p></div>
-          <div class="cell vertical-text"><p>30</p></div>
-          <div class="cell blob" id="blob-group-30" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-020000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-020100" ><p></p></div>
-          <div class="cell vertical-text"><p>20</p></div>
-          <div class="cell vertical-text"><p>272</p></div>
-          <div class="cell blob" id="blob-single-272" ><p></p></div>
-          <div class="cell vertical-text"><p>15</p></div>
-          <div class="cell blob" id="blob-group-15" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-010000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-010100" ><p></p></div>
-          <div class="cell vertical-text"><p>10</p></div>
-          <div class="cell vertical-text"><p>271</p></div>
-          <div class="cell blob" id="blob-single-271" ><p></p></div>
-          <div class="cell vertical-text"><p>0</p></div>
-          <div class="cell blob" id="blob-group-0" ><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell blob" id="blob-shade-000000" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000010" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000020" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000030" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000040" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000050" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000060" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000070" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000080" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000090" ><p></p></div>
-          <div class="cell blob" id="blob-shade-000100" ><p></p></div>
-          <div class="cell vertical-text"><p>0</p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell empty"><p></p></div>
-          <div class="cell horizontal-text"><p>0</p></div>
-          <div class="cell horizontal-text"><p>10</p></div>
-          <div class="cell horizontal-text"><p>20</p></div>
-          <div class="cell horizontal-text"><p>30</p></div>
-          <div class="cell horizontal-text"><p>40</p></div>
-          <div class="cell horizontal-text"><p>50</p></div>
-          <div class="cell horizontal-text"><p>60</p></div>
-          <div class="cell horizontal-text"><p>70</p></div>
-          <div class="cell horizontal-text"><p>80</p></div>
-          <div class="cell horizontal-text"><p>90</p></div>
-          <div class="cell horizontal-text"><p>100</p></div>
-          <div class="cell empty"><p></p></div>
-        </div>
+      <div id="palette">
+        <div class="cell empty"><p></p></div>
+        <div class="cell horizontal-text"><p>285</p></div>
+        <div class="cell horizontal-text"><p>286</p></div>
+        <div class="cell horizontal-text"><p>287</p></div>
+        <div class="cell horizontal-text"><p>288</p></div>
+        <div class="cell horizontal-text"><p>289</p></div>
+        <div class="cell horizontal-text"><p>290</p></div>
+        <div class="cell horizontal-text"><p>291</p></div>
+        <div class="cell horizontal-text"><p>292</p></div>
+        <div class="cell horizontal-text"><p>293</p></div>
+        <div class="cell horizontal-text"><p>294</p></div>
+        <div class="cell horizontal-text"><p>295</p></div>
+        <div class="cell horizontal-text"><p>296</p></div>
+        <div class="cell horizontal-text"><p>297</p></div>
+        <div class="cell horizontal-text"><p>298</p></div>
+        <div class="cell horizontal-text"><p>299</p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-single-285"><p></p></div>
+        <div class="cell blob" id="blob-single-286"><p></p></div>
+        <div class="cell blob" id="blob-single-287"><p></p></div>
+        <div class="cell blob" id="blob-single-288"><p></p></div>
+        <div class="cell blob" id="blob-single-289"><p></p></div>
+        <div class="cell blob" id="blob-single-290"><p></p></div>
+        <div class="cell blob" id="blob-single-291"><p></p></div>
+        <div class="cell blob" id="blob-single-292"><p></p></div>
+        <div class="cell blob" id="blob-single-293"><p></p></div>
+        <div class="cell blob" id="blob-single-294"><p></p></div>
+        <div class="cell blob" id="blob-single-295"><p></p></div>
+        <div class="cell blob" id="blob-single-296"><p></p></div>
+        <div class="cell blob" id="blob-single-297"><p></p></div>
+        <div class="cell blob" id="blob-single-298"><p></p></div>
+        <div class="cell blob" id="blob-single-299"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell vertical-text"><p>284</p></div>
+        <div class="cell blob" id="blob-single-284"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell horizontal-text"><p>180</p></div>
+        <div class="cell horizontal-text"><p>195</p></div>
+        <div class="cell horizontal-text"><p>210</p></div>
+        <div class="cell horizontal-text"><p>225</p></div>
+        <div class="cell horizontal-text"><p>240</p></div>
+        <div class="cell horizontal-text"><p>255</p></div>
+        <div class="cell horizontal-text"><p>270</p></div>
+        <div class="cell horizontal-text"><p>285</p></div>
+        <div class="cell horizontal-text"><p>300</p></div>
+        <div class="cell horizontal-text"><p>315</p></div>
+        <div class="cell horizontal-text"><p>330</p></div>
+        <div class="cell horizontal-text"><p>345</p></div>
+        <div class="cell horizontal-text"><p>360</p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell vertical-text"><p>283</p></div>
+        <div class="cell blob" id="blob-single-283"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-group-180"><p></p></div>
+        <div class="cell blob" id="blob-group-195"><p></p></div>
+        <div class="cell blob" id="blob-group-210"><p></p></div>
+        <div class="cell blob" id="blob-group-225"><p></p></div>
+        <div class="cell blob" id="blob-group-240"><p></p></div>
+        <div class="cell blob" id="blob-group-255"><p></p></div>
+        <div class="cell blob" id="blob-group-270"><p></p></div>
+        <div class="cell blob" id="blob-group-285"><p></p></div>
+        <div class="cell blob" id="blob-group-300"><p></p></div>
+        <div class="cell blob" id="blob-group-315"><p></p></div>
+        <div class="cell blob" id="blob-group-330"><p></p></div>
+        <div class="cell blob" id="blob-group-345"><p></p></div>
+        <div class="cell blob" id="blob-group-360"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell vertical-text"><p>282</p></div>
+        <div class="cell blob" id="blob-single-282"><p></p></div>
+        <div class="cell vertical-text"><p>165</p></div>
+        <div class="cell blob" id="blob-group-165"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell vertical-text"><p>281</p></div>
+        <div class="cell blob" id="blob-single-281"><p></p></div>
+        <div class="cell vertical-text"><p>150</p></div>
+        <div class="cell blob" id="blob-group-150"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-100000"><p></p></div>
+        <div class="cell blob" id="blob-shade-100010"><p></p></div>
+        <div class="cell blob" id="blob-shade-100020"><p></p></div>
+        <div class="cell blob" id="blob-shade-100030"><p></p></div>
+        <div class="cell blob" id="blob-shade-100040"><p></p></div>
+        <div class="cell blob" id="blob-shade-100050"><p></p></div>
+        <div class="cell blob" id="blob-shade-100060"><p></p></div>
+        <div class="cell blob" id="blob-shade-100070"><p></p></div>
+        <div class="cell blob" id="blob-shade-100080"><p></p></div>
+        <div class="cell blob" id="blob-shade-100090"><p></p></div>
+        <div class="cell blob" id="blob-shade-100100"><p></p></div>
+        <div class="cell vertical-text"><p>100</p></div>
+        <div class="cell vertical-text"><p>280</p></div>
+        <div class="cell blob" id="blob-single-280"><p></p></div>
+        <div class="cell vertical-text"><p>135</p></div>
+        <div class="cell blob" id="blob-group-135"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-090000"><p></p></div>
+        <div class="cell blob" id="blob-shade-090010"><p></p></div>
+        <div class="cell blob" id="blob-shade-090020"><p></p></div>
+        <div class="cell blob" id="blob-shade-090030"><p></p></div>
+        <div class="cell blob" id="blob-shade-090040"><p></p></div>
+        <div class="cell blob" id="blob-shade-090050"><p></p></div>
+        <div class="cell blob" id="blob-shade-090060"><p></p></div>
+        <div class="cell blob" id="blob-shade-090070"><p></p></div>
+        <div class="cell blob" id="blob-shade-090080"><p></p></div>
+        <div class="cell blob" id="blob-shade-090090"><p></p></div>
+        <div class="cell blob" id="blob-shade-090100"><p></p></div>
+        <div class="cell vertical-text"><p>90</p></div>
+        <div class="cell vertical-text"><p>279</p></div>
+        <div class="cell blob" id="blob-single-279"><p></p></div>
+        <div class="cell vertical-text"><p>120</p></div>
+        <div class="cell blob" id="blob-group-120"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-080000"><p></p></div>
+        <div class="cell blob" id="blob-shade-080010"><p></p></div>
+        <div class="cell blob" id="blob-shade-080020"><p></p></div>
+        <div class="cell blob" id="blob-shade-080030"><p></p></div>
+        <div class="cell blob" id="blob-shade-080040"><p></p></div>
+        <div class="cell blob" id="blob-shade-080050"><p></p></div>
+        <div class="cell blob" id="blob-shade-080060"><p></p></div>
+        <div class="cell blob" id="blob-shade-080070"><p></p></div>
+        <div class="cell blob" id="blob-shade-080080"><p></p></div>
+        <div class="cell blob" id="blob-shade-080090"><p></p></div>
+        <div class="cell blob" id="blob-shade-080100"><p></p></div>
+        <div class="cell vertical-text"><p>80</p></div>
+        <div class="cell vertical-text"><p>278</p></div>
+        <div class="cell blob" id="blob-single-278"><p></p></div>
+        <div class="cell vertical-text"><p>105</p></div>
+        <div class="cell blob" id="blob-group-105"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-070000"><p></p></div>
+        <div class="cell blob" id="blob-shade-070010"><p></p></div>
+        <div class="cell blob" id="blob-shade-070020"><p></p></div>
+        <div class="cell blob" id="blob-shade-070030"><p></p></div>
+        <div class="cell blob" id="blob-shade-070040"><p></p></div>
+        <div class="cell blob" id="blob-shade-070050"><p></p></div>
+        <div class="cell blob" id="blob-shade-070060"><p></p></div>
+        <div class="cell blob" id="blob-shade-070070"><p></p></div>
+        <div class="cell blob" id="blob-shade-070080"><p></p></div>
+        <div class="cell blob" id="blob-shade-070090"><p></p></div>
+        <div class="cell blob" id="blob-shade-070100"><p></p></div>
+        <div class="cell vertical-text"><p>70</p></div>
+        <div class="cell vertical-text"><p>277</p></div>
+        <div class="cell blob" id="blob-single-277"><p></p></div>
+        <div class="cell vertical-text"><p>90</p></div>
+        <div class="cell blob" id="blob-group-90"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-060000"><p></p></div>
+        <div class="cell blob" id="blob-shade-060010"><p></p></div>
+        <div class="cell blob" id="blob-shade-060020"><p></p></div>
+        <div class="cell blob" id="blob-shade-060030"><p></p></div>
+        <div class="cell blob" id="blob-shade-060040"><p></p></div>
+        <div class="cell blob" id="blob-shade-060050"><p></p></div>
+        <div class="cell blob" id="blob-shade-060060"><p></p></div>
+        <div class="cell blob" id="blob-shade-060070"><p></p></div>
+        <div class="cell blob" id="blob-shade-060080"><p></p></div>
+        <div class="cell blob" id="blob-shade-060090"><p></p></div>
+        <div class="cell blob" id="blob-shade-060100"><p></p></div>
+        <div class="cell vertical-text"><p>60</p></div>
+        <div class="cell vertical-text"><p>276</p></div>
+        <div class="cell blob" id="blob-single-276"><p></p></div>
+        <div class="cell vertical-text"><p>75</p></div>
+        <div class="cell blob" id="blob-group-75"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-050000"><p></p></div>
+        <div class="cell blob" id="blob-shade-050010"><p></p></div>
+        <div class="cell blob" id="blob-shade-050020"><p></p></div>
+        <div class="cell blob" id="blob-shade-050030"><p></p></div>
+        <div class="cell blob" id="blob-shade-050040"><p></p></div>
+        <div class="cell blob" id="blob-shade-050050"><p></p></div>
+        <div class="cell blob" id="blob-shade-050060"><p></p></div>
+        <div class="cell blob" id="blob-shade-050070"><p></p></div>
+        <div class="cell blob" id="blob-shade-050080"><p></p></div>
+        <div class="cell blob" id="blob-shade-050090"><p></p></div>
+        <div class="cell blob" id="blob-shade-050100"><p></p></div>
+        <div class="cell vertical-text"><p>50</p></div>
+        <div class="cell vertical-text"><p>275</p></div>
+        <div class="cell blob" id="blob-single-275"><p></p></div>
+        <div class="cell vertical-text"><p>60</p></div>
+        <div class="cell blob" id="blob-group-60"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-040000"><p></p></div>
+        <div class="cell blob" id="blob-shade-040010"><p></p></div>
+        <div class="cell blob" id="blob-shade-040020"><p></p></div>
+        <div class="cell blob" id="blob-shade-040030"><p></p></div>
+        <div class="cell blob" id="blob-shade-040040"><p></p></div>
+        <div class="cell blob" id="blob-shade-040050"><p></p></div>
+        <div class="cell blob" id="blob-shade-040060"><p></p></div>
+        <div class="cell blob" id="blob-shade-040070"><p></p></div>
+        <div class="cell blob" id="blob-shade-040080"><p></p></div>
+        <div class="cell blob" id="blob-shade-040090"><p></p></div>
+        <div class="cell blob" id="blob-shade-040100"><p></p></div>
+        <div class="cell vertical-text"><p>40</p></div>
+        <div class="cell vertical-text"><p>274</p></div>
+        <div class="cell blob" id="blob-single-274"><p></p></div>
+        <div class="cell vertical-text"><p>45</p></div>
+        <div class="cell blob" id="blob-group-45"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-030000"><p></p></div>
+        <div class="cell blob" id="blob-shade-030010"><p></p></div>
+        <div class="cell blob" id="blob-shade-030020"><p></p></div>
+        <div class="cell blob" id="blob-shade-030030"><p></p></div>
+        <div class="cell blob" id="blob-shade-030040"><p></p></div>
+        <div class="cell blob" id="blob-shade-030050"><p></p></div>
+        <div class="cell blob" id="blob-shade-030060"><p></p></div>
+        <div class="cell blob" id="blob-shade-030070"><p></p></div>
+        <div class="cell blob" id="blob-shade-030080"><p></p></div>
+        <div class="cell blob" id="blob-shade-030090"><p></p></div>
+        <div class="cell blob" id="blob-shade-030100"><p></p></div>
+        <div class="cell vertical-text"><p>30</p></div>
+        <div class="cell vertical-text"><p>273</p></div>
+        <div class="cell blob" id="blob-single-273"><p></p></div>
+        <div class="cell vertical-text"><p>30</p></div>
+        <div class="cell blob" id="blob-group-30"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-020000"><p></p></div>
+        <div class="cell blob" id="blob-shade-020010"><p></p></div>
+        <div class="cell blob" id="blob-shade-020020"><p></p></div>
+        <div class="cell blob" id="blob-shade-020030"><p></p></div>
+        <div class="cell blob" id="blob-shade-020040"><p></p></div>
+        <div class="cell blob" id="blob-shade-020050"><p></p></div>
+        <div class="cell blob" id="blob-shade-020060"><p></p></div>
+        <div class="cell blob" id="blob-shade-020070"><p></p></div>
+        <div class="cell blob" id="blob-shade-020080"><p></p></div>
+        <div class="cell blob" id="blob-shade-020090"><p></p></div>
+        <div class="cell blob" id="blob-shade-020100"><p></p></div>
+        <div class="cell vertical-text"><p>20</p></div>
+        <div class="cell vertical-text"><p>272</p></div>
+        <div class="cell blob" id="blob-single-272"><p></p></div>
+        <div class="cell vertical-text"><p>15</p></div>
+        <div class="cell blob" id="blob-group-15"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-010000"><p></p></div>
+        <div class="cell blob" id="blob-shade-010010"><p></p></div>
+        <div class="cell blob" id="blob-shade-010020"><p></p></div>
+        <div class="cell blob" id="blob-shade-010030"><p></p></div>
+        <div class="cell blob" id="blob-shade-010040"><p></p></div>
+        <div class="cell blob" id="blob-shade-010050"><p></p></div>
+        <div class="cell blob" id="blob-shade-010060"><p></p></div>
+        <div class="cell blob" id="blob-shade-010070"><p></p></div>
+        <div class="cell blob" id="blob-shade-010080"><p></p></div>
+        <div class="cell blob" id="blob-shade-010090"><p></p></div>
+        <div class="cell blob" id="blob-shade-010100"><p></p></div>
+        <div class="cell vertical-text"><p>10</p></div>
+        <div class="cell vertical-text"><p>271</p></div>
+        <div class="cell blob" id="blob-single-271"><p></p></div>
+        <div class="cell vertical-text"><p>0</p></div>
+        <div class="cell blob" id="blob-group-0"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell blob" id="blob-shade-000000"><p></p></div>
+        <div class="cell blob" id="blob-shade-000010"><p></p></div>
+        <div class="cell blob" id="blob-shade-000020"><p></p></div>
+        <div class="cell blob" id="blob-shade-000030"><p></p></div>
+        <div class="cell blob" id="blob-shade-000040"><p></p></div>
+        <div class="cell blob" id="blob-shade-000050"><p></p></div>
+        <div class="cell blob" id="blob-shade-000060"><p></p></div>
+        <div class="cell blob" id="blob-shade-000070"><p></p></div>
+        <div class="cell blob" id="blob-shade-000080"><p></p></div>
+        <div class="cell blob" id="blob-shade-000090"><p></p></div>
+        <div class="cell blob" id="blob-shade-000100"><p></p></div>
+        <div class="cell vertical-text"><p>0</p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell empty"><p></p></div>
+        <div class="cell horizontal-text"><p>0</p></div>
+        <div class="cell horizontal-text"><p>10</p></div>
+        <div class="cell horizontal-text"><p>20</p></div>
+        <div class="cell horizontal-text"><p>30</p></div>
+        <div class="cell horizontal-text"><p>40</p></div>
+        <div class="cell horizontal-text"><p>50</p></div>
+        <div class="cell horizontal-text"><p>60</p></div>
+        <div class="cell horizontal-text"><p>70</p></div>
+        <div class="cell horizontal-text"><p>80</p></div>
+        <div class="cell horizontal-text"><p>90</p></div>
+        <div class="cell horizontal-text"><p>100</p></div>
+        <div class="cell empty"><p></p></div>
       </div>
     </section>
     <script src="script.js"></script>
