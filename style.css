@@ -127,7 +127,7 @@ h3 {
 .h040 p {
   margin-bottom: 6px;
   padding: 2px 4px 5px 4px;
-  border: 2px solid red;
+  border: 1px solid black;
   border-radius: 25%;
 }
 
@@ -146,8 +146,23 @@ h3 {
 
 .v070 p {
   padding: 4px 0px 0px 0px;
-  border: 2px solid red;
+  border: 1px solid black;
   border-radius: 25%;
+}
+
+#blob-single-279 {
+  border: 1px solid white;
+  background-image: radial-gradient(hsl(279, 100%, 50%) 70%, white 40%);
+}
+
+#blob-group-285 {
+  border: 1px solid white;
+  background-image: radial-gradient(hsl(285, 100%, 50%) 70%, white 40%);
+}
+
+#blob-shade-070040 {
+  border: 1px solid white;
+  background-image: radial-gradient(hsl(279, 70%, 40%) 70%, white 40%);
 }
 
 /*DOING*/
