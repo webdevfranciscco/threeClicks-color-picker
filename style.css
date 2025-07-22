@@ -98,25 +98,48 @@ h3 {
   justify-content: center;
 }
 
-/*DOING*/
-
 .horizontal-text > p {
-  /* display: none; */
   margin: 2px;
 }
 
-/*tTODO*/
-
 .vertical-text {
-  /* display: none; */
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-right: -9px;
+  margin-right: -10px;
 }
 
 .vertical-text > p {
   width: 30px;
   height: 1rem;
   transform: rotate(-90deg);
+}
+
+/*DOING*/
+
+/*tTODO*/
+/* NOTE FIX RIGHT HAND TEXT SEPARATION*/
+/* NOTE FIX BOTTOM TEXT SEPARATION*/
+
+.horizontal-text-shade {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.horizontal-text-shade > p {
+  margin: 16px;
+}
+
+.vertical-text-shade {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.vertical-text-shade > p {
+  width: 30px;
+  height: 1rem;
+  transform: rotate(-90deg);
+  margin-right: 10px;
 }
