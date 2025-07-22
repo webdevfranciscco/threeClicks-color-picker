@@ -151,18 +151,18 @@ h3 {
 }
 
 #blob-single-279 {
-  border: 1px solid white;
-  background-image: radial-gradient(hsl(279, 100%, 50%) 70%, white 40%);
+  border: 1px solid black;
+  background-image: radial-gradient(hsl(279, 100%, 50%) 65%, white 70%);
 }
 
 #blob-group-285 {
-  border: 1px solid white;
-  background-image: radial-gradient(hsl(285, 100%, 50%) 70%, white 40%);
+  border: 1px solid black;
+  background-image: radial-gradient(hsl(285, 100%, 50%) 65%, white 70%);
 }
 
 #blob-shade-070040 {
-  border: 1px solid white;
-  background-image: radial-gradient(hsl(279, 70%, 40%) 70%, white 40%);
+  border: 1px solid black;
+  background-image: radial-gradient(hsl(279, 70%, 40%) 65%, white 70%);
 }
 
 /*DOING*/
