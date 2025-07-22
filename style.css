@@ -99,27 +99,8 @@ h3 {
 }
 
 .horizontal-text > p {
-  margin: 2px;
+  margin: 5px;
 }
-
-.vertical-text {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: -10px;
-}
-
-.vertical-text > p {
-  width: 30px;
-  height: 1rem;
-  transform: rotate(-90deg);
-}
-
-/*DOING*/
-
-/*tTODO*/
-/* NOTE FIX RIGHT HAND TEXT SEPARATION*/
-/* NOTE FIX BOTTOM TEXT SEPARATION*/
 
 .horizontal-text-shade {
   display: flex;
@@ -129,6 +110,25 @@ h3 {
 
 .horizontal-text-shade > p {
   margin: 16px;
+}
+.vertical-text {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: -5px;
+}
+
+.vertical-text > p {
+  width: 30px;
+  height: 1rem;
+  transform: rotate(-90deg);
+}
+
+.h040 p {
+  margin-bottom: 6px;
+  padding: 2px 4px 5px 4px;
+  border: 2px solid red;
+  border-radius: 25%;
 }
 
 .vertical-text-shade {
@@ -141,5 +141,15 @@ h3 {
   width: 30px;
   height: 1rem;
   transform: rotate(-90deg);
-  margin-right: 10px;
+  margin-right: 5px;
 }
+
+.v070 p {
+  padding: 4px 0px 0px 0px;
+  border: 2px solid red;
+  border-radius: 25%;
+}
+
+/*DOING*/
+
+/*tTODO*/
