@@ -13,10 +13,12 @@ h1 {
   font-size: 4.5rem;
   font-weight: lighter;
   text-align: center;
+  margin-bottom: 0;
 }
 
 h2 {
   text-align: center;
+  margin-top: 0;
 }
 
 #color-values-container {
@@ -24,14 +26,15 @@ h2 {
 }
 
 #color-values {
-  width: 30em;
+  width: 30rem;
   display: inline-flex;
   justify-content: space-around;
 }
 
 #large-blob {
-  width: 2.5em;
-  height: 2.5em;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 25%;
   background-color: hsl(279, 70%, 40%);
 }
 
