@@ -16,3 +16,6 @@ copy-n-paste-html.html
 
 # excel temporary files
 ~$*
+
+# vs code hidden files
+.vscode/*

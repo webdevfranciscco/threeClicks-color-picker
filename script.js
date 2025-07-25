@@ -48,10 +48,7 @@ let getBlobData = function (itemsId) {
 let updateColorPalette = function (blobType, blobColor) {
   clearCurrentSelection();
 
-  // a red blob with a 'blob-group-0' id is present in the blob-group set,
-  // this is to allow having a red blob displayed at both ends of the blob-group set.
-  // however, internally, a zero is converted to 360 to simplify the program's logic
-  if (blobColor === '0') blobColor = '360';
+  // TODO FIX DEBUG TODO NOTE
 
   let wasUpdateSuccessful = '';
   if (blobType === 'group') updateGroupsPalette(blobColor);
@@ -62,37 +59,61 @@ let updateColorPalette = function (blobType, blobColor) {
 
 // DONE
 const clearCurrentSelection = function () {
-  console.log(currentSelection.group);
+  console.log(
+    'clearCurrentSelection > currentSelection.group:',
+    currentSelection.group
+  );
+
   document.getElementById(currentSelection.group).style =
     'border: 1px solid black';
   console.log(currentSelection.single);
   document.getElementById(currentSelection.single).style =
     'border: 1px solid black';
-
   console.log(currentSelection.shade);
   document.getElementById(currentSelection.shade).style =
     'border: 1px solid black';
+
+  // NOTE (1/2) a red blob with a 'blob-group-0' id is present in the blob-group set,
+  // this is to allow having a red blob displayed at both ends of the blob-group set.
+  // however, internally, this has to be handled as a special case in this code block
+  // by clearing group blob 'blob-group-0' each time it is selected
+  // this problem originates from the fact that only one element can have the
+  // 'blob-group-360' id and, therefore, the first blob representing color 360 has the
+  // 'blob-group-0' id
+  document.getElementById('blob-group-0').style = 'border: 1px solid black';
 };
 
 // DONE
 const updateGroupsPalette = function (newGroupColor) {
-  newSelection.group = 'blob-group-' + newGroupColor;
-  document.getElementById(newSelection.group).style = 'border: 4px solid red';
+  clearCurrentSelection();
+  if (newGroupColor === '0') {
+    //NOTE (2/2) - see note (1/2) for more detail
+    // a red blob with a 'blob-group-0' id is present in the blob-group set,
+    // this is to allow having a red blob displayed at both ends of the blob-group set.
+    // however, internally, a zero is converted to 360 to simplify the program's logic
+    // and this special case is dealt with as an exeption in this code block
+    newSelection.group = 'blob-group-' + newGroupColor;
+    document.getElementById(newSelection.group).style =
+      'border: 4px solid black';
+    newGroupColor = '360';
+  } else {
+    newSelection.group = 'blob-group-' + newGroupColor;
+    document.getElementById(newSelection.group).style =
+      'border: 4px solid black';
+  }
 
+  // if (blobColor === '0') blobColor = '360';
   updateSinglesPalette(newGroupColor, 'group');
   updateShadesPalette(newGroupColor);
 };
 
 const updateSinglesPalette = function (newGroupColor, origin) {
   if (origin === 'group') {
-    newSelection.group = 'blob-group-' + newGroupColor;
-    document.getElementById(newSelection.group).style =
-      'border: 4px solid blue';
     const newSingleColorArray = createNewSingleColorArray(newGroupColor);
     const oldSingleColorArray = createOldSingleColorArray(newGroupColor);
 
     updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
-    currentSelection.group = 'blob-group-' + newGroupColor; // TODO FIX
+    currentSelection.group = 'blob-group-' + newGroupColor;
     currentSelection.single = 'blob-single-' + newGroupColor;
     currentSelection.shade = 'blob-shade-070040';
     console.log(
