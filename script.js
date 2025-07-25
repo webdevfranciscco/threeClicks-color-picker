@@ -73,7 +73,8 @@ const clearCurrentSelection = function () {
   document.getElementById(currentSelection.shade).style =
     'border: 1px solid black';
 
-  // NOTE (1/2) a red blob with a 'blob-group-0' id is present in the blob-group set,
+  // NOTE (a1/2)
+  // a red blob with a 'blob-group-0' id is present in the blob-group set,
   // this is to allow having a red blob displayed at both ends of the blob-group set.
   // however, internally, this has to be handled as a special case in this code block
   // by clearing group blob 'blob-group-0' each time it is selected
@@ -87,7 +88,7 @@ const clearCurrentSelection = function () {
 const updateGroupsPalette = function (newGroupColor) {
   clearCurrentSelection();
   if (newGroupColor === '0') {
-    //NOTE (2/2) - see note (1/2) for more detail
+    //NOTE (a2/2) - see note (a1/2) for more detail
     // a red blob with a 'blob-group-0' id is present in the blob-group set,
     // this is to allow having a red blob displayed at both ends of the blob-group set.
     // however, internally, a zero is converted to 360 to simplify the program's logic
@@ -131,8 +132,10 @@ const createNewSingleColorArray = function (newGroupColor) {
 
   let newBaseColor = Number(newGroupColor);
 
-  // NOTE: the HSL color space is circular, before 0deg comes 359deg and after 360deg comes 1deg
-  // this code handles that
+  // NOTE (b1/2)
+  //  the HSL color space is circular, before 0deg comes 359deg and after 360deg comes 1deg
+  // this code handles that by making sure we go from 259 to 360 to 1 and viceversa
+  // same for createOldSingleColorArray() see note (b2/2)
   for (let i = -14; i <= 14; i++) {
     newColorIndex = 14 + i;
     console.log('createNewSingleColorArray >  newColorIndex:', newColorIndex);
@@ -154,6 +157,9 @@ const createNewSingleColorArray = function (newGroupColor) {
 const createOldSingleColorArray = function (newGroupColor) {
   let oldSingleColorArray = [];
   let oldColorIndex = 0;
+
+  // NOTE (b2/2)
+  // seame case as indicated in note (b1/2) for createNewSingleColorArray()
 
   let oldBaseColor = Number(getBlobData(currentSelection.group).blobColor);
 
