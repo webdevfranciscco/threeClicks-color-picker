@@ -16,11 +16,26 @@ let newSelection = {
   shade: '',
 };
 
-let eventStored;
+let eventStored; //TODO -  Check if needed and delete if not
+
+let clickedEvent = ''; //TODO - Delete after debugging
 
 /***********
  functions 
  ***********/
+
+const markCurrentSelection = function () {
+  document.getElementById(currentSelection.group).style =
+    'border: 4px solid black';
+
+  document.getElementById(currentSelection.single).style =
+    'border: 4px solid black';
+
+  document.getElementById(currentSelection.shade).style =
+    'border: 4px solid black';
+};
+
+markCurrentSelection();
 
 // DONE
 let clickedItemIsBlob = function (itemsId) {
@@ -31,45 +46,38 @@ let clickedItemIsBlob = function (itemsId) {
 // DONE
 let getBlobData = function (itemsId) {
   const blobData = {};
-  if (itemsId.substring(5, 10) === 'group') blobData.blobType = 'group';
-  else if (itemsId.substring(5, 11) === 'single') blobData.blobType = 'single';
-  else if (itemsId.substring(5, 10) === 'shade') blobData.blobType = 'shade';
-
-  if (blobData.blobType === 'group')
+  if (itemsId.substring(5, 10) === 'group') {
+    blobData.blobType = 'group';
     blobData.blobColor = itemsId.substring(11, 14);
-  else if (blobData.blobType === 'single')
+  } else if (itemsId.substring(5, 11) === 'single') {
+    blobData.blobType = 'single';
     blobData.blobColor = itemsId.substring(12, 15);
-  else if (blobData.blobType === 'shade')
+  } else if (itemsId.substring(5, 10) === 'shade') {
+    blobData.blobType = 'shade';
     blobData.blobColor = itemsId.substring(11, 17);
+  }
 
   return blobData;
 };
 
 let updateColorPalette = function (blobType, blobColor) {
-  clearCurrentSelection();
-
   // TODO FIX DEBUG TODO NOTE
 
-  let wasUpdateSuccessful = '';
+  let wasUpdateSuccessful = ''; // TODO - Check if this is still used properly, then decide to  either complete or eliminate
   if (blobType === 'group') updateGroupsPalette(blobColor);
   else if (blobType === 'single') updateSinglesPalette(blobColor, 'listener');
   else if (blobType === 'shade') updateShadesPalette(blobColor);
   return wasUpdateSuccessful;
 };
 
-// DONE
+//DONE
 const clearCurrentSelection = function () {
-  console.log(
-    'clearCurrentSelection > currentSelection.group:',
-    currentSelection.group
-  );
-
   document.getElementById(currentSelection.group).style =
     'border: 1px solid black';
-  console.log(currentSelection.single);
+
   document.getElementById(currentSelection.single).style =
     'border: 1px solid black';
-  console.log(currentSelection.shade);
+
   document.getElementById(currentSelection.shade).style =
     'border: 1px solid black';
 
@@ -86,7 +94,6 @@ const clearCurrentSelection = function () {
 
 // DONE
 const updateGroupsPalette = function (newGroupColor) {
-  clearCurrentSelection();
   if (newGroupColor === '0') {
     //NOTE (a2/2) - see note (a1/2) for more detail
     // a red blob with a 'blob-group-0' id is present in the blob-group set,
@@ -105,7 +112,6 @@ const updateGroupsPalette = function (newGroupColor) {
 
   // if (blobColor === '0') blobColor = '360';
   updateSinglesPalette(newGroupColor, 'group');
-  updateShadesPalette(newGroupColor);
 };
 
 const updateSinglesPalette = function (newGroupColor, origin) {
@@ -117,10 +123,8 @@ const updateSinglesPalette = function (newGroupColor, origin) {
     currentSelection.group = 'blob-group-' + newGroupColor;
     currentSelection.single = 'blob-single-' + newGroupColor;
     currentSelection.shade = 'blob-shade-070040';
-    console.log(
-      'updateSinglesPalette >  currentSelection.group:',
-      currentSelection.group
-    );
+  } else if (origin === 'listener') {
+    // FIX - This else may not be needed
   }
 };
 
@@ -138,7 +142,6 @@ const createNewSingleColorArray = function (newGroupColor) {
   // same for createOldSingleColorArray() see note (b2/2)
   for (let i = -14; i <= 14; i++) {
     newColorIndex = 14 + i;
-    console.log('createNewSingleColorArray >  newColorIndex:', newColorIndex);
     if (newBaseColor + i < 0) {
       newSingleColorArray[newColorIndex] = 360 - newBaseColor + i;
     } else if (newBaseColor + i > 360) {
@@ -187,30 +190,37 @@ const updateSinglesPaletteDisplay = function (
   let newId = '';
 
   // change ids
-  for (let i = 0; i <= 28; i++) {
+  for (let i = 28; i >= 0; i--) {
+    let tempId = ''; // TODO DELETE - debugging code
     oldId = 'blob-single-' + oldSingleColorArray[i];
     newId = 'blob-single-' + newSingleColorArray[i];
 
-    console.log('updateSinglesPaletteDisplay >  oldId, newId', oldId, newId);
-
-    // add class with the new id
-    document.querySelector('#' + oldId).classList.add(newId);
-
-    // remove existing id
-    document.querySelector('.' + newId).setAttribute('id', '');
-
-    // add new id
-    document.querySelector('.' + newId).setAttribute('id', newId);
-
-    // remove class with the new id
-    document.querySelector('#' + newId).classList.remove(newId);
+    document.querySelector('#' + oldId).setAttribute('id', newId);
 
     const blobData = getBlobData(newId);
+
+    //LOG
+    // console.log('updateSinglesPaletteDisplay >  blobData', blobData);
 
     // update single color blobs display
     document.getElementById(newId).style =
       'background-color: hsl(' + blobData.blobColor + ', 100%, 50%);';
     document.getElementById(newId).textContent = blobData.blobColor;
+    //LOG
+    console.log(
+      'updateSinglesPaletteDisplay >  oldId, newId blobColor',
+      oldId,
+      newId,
+      blobData.blobColor
+    );
+
+    //LOG
+    // console.log(
+    //   'updateSinglesPaletteDisplay > oldId, clickedEvent, newId:::',
+    //   oldId,
+    //   clickedEvent,
+    //   newId
+    // );
   }
 };
 
@@ -225,6 +235,7 @@ const updateShadesPalette = function (blobColor) {
 
 /** program's main flow : (01) - start here */
 document.querySelector('body').addEventListener('click', function (event) {
+  //LOG
   console.log('event listener >  here');
   const clickedElementsId = event.target.id.toLowerCase();
   eventStored = event;
@@ -237,15 +248,27 @@ document.querySelector('body').addEventListener('click', function (event) {
 
 /** program's main flow : (02) - main process starts here */
 let main = function (clickedItemsId) {
+  clickedEvent = clickedItemsId;
+  //LOG
   console.log('main >  clickedItemsId', clickedItemsId);
   if (clickedItemIsBlob(clickedItemsId)) {
     const blobData = getBlobData(clickedItemsId);
     const blobType = blobData.blobType;
     const blobColor = blobData.blobColor;
 
+    document.querySelector('h3').textContent = clickedEvent; //TODO DELETE - Delete me - Code for debugging
+
+    clearCurrentSelection();
+
     updateColorPalette(blobType, blobColor);
+    //LOG
+    console.log('main >  CLICK EVENT PROCESS COMPLETE >>>>>>>>');
+    console.log('');
   }
-  console.log('main >  currentSelection.group:', currentSelection.group);
-  console.log('main >  currentSelection.single:', currentSelection.single);
-  console.log("main >  EVENT'S CICLE COMPLETE!!");
 };
+
+// REFACTOR LOG DELETE FIX TODO DOING DONE DEBUG NOTE
+//
+// NEXT STEP:
+//
+// explore what happens with single id when a new group id is chosen

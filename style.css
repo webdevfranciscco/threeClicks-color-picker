@@ -1,4 +1,11 @@
-/*DONE*/
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+}
+
 header {
   margin-left: 5%;
 }
@@ -148,18 +155,6 @@ h3 {
   padding: 4px 0px 0px 0px;
   border: 1px solid black;
   border-radius: 25%;
-}
-
-#blob-single-279 {
-  border: 4px solid black;
-}
-
-#blob-group-285 {
-  border: 4px solid black;
-}
-
-#blob-shade-070040 {
-  border: 4px solid black;
 }
 
 /*DOING*/
