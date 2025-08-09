@@ -58,11 +58,12 @@ h3 {
 }
 
 #large-blob {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   margin: 0 1rem 0 1rem;
   border-radius: 25%;
   background-color: hsl(279, 70%, 40%);
+  border: 1px, solid, black;
 }
 
 #color-space {
