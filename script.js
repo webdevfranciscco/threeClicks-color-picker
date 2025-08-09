@@ -162,13 +162,19 @@ const updateSinglesPaletteDisplay = function (
   oldSingleColorArray,
   newSingleColorArray
 ) {
+  for (let i = 0; i <= 28; i++) {
+    document
+      .getElementById('blob-single-' + oldSingleColorArray[i])
+      .setAttribute('id', 'temp-id-' + i);
+  }
+
   // :DEBUG: Vamos aquí...
   for (let i = 0; i <= 28; i++) {
     //
     // change the old id for the new id
     // on each blob DOM element of the singles palette
     document
-      .getElementById('blob-single-' + oldSingleColorArray[i])
+      .getElementById('temp-id-' + i)
       .setAttribute('id', 'blob-single-' + newSingleColorArray[i]);
 
     // update the hue of the single color blobs
