@@ -135,9 +135,10 @@ const updateSinglesPalette = function (newGroupColor, origin) {
     currentSelection.single = 'blob-single-' + newGroupColor;
     currentSelection.shade = 'blob-shade-279070040';
   }
-  // :HIGHLIGHT:
   document.getElementById('large-blob').style =
-    'background-color: hsl(' + newGroupColor + ', 100%, 50%);';
+    'background-color: hsl(' +
+    newGroupColor +
+    ', 100%, 50%);border: solid, 1px black;';
 };
 
 // :REFACTOR: > DRY see createOldSingleColorArray
