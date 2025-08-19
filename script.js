@@ -100,6 +100,7 @@ const updateGroupsPalette = function (newGroupColor) {
   updateSinglesPalette(newGroupColor, 'group');
 };
 
+// :TODO: :DRY:
 /* ############################################# */
 const markBlobWithCursor = function (type, blobId) {
   // type can be either 'group', 'single' or 'shade'
@@ -107,14 +108,13 @@ const markBlobWithCursor = function (type, blobId) {
     'border: 4px solid black;';
 };
 
-// :DOING:
+// :DONE:
 /* ############################################# */
 const updateSinglesPalette = function (newGroupColor, origin) {
   if (origin === 'group') {
     const newSingleColorArray = createNewSingleColorArray(newGroupColor);
     const oldSingleColorArray = createOldSingleColorArray();
 
-    // :DONE: todo ok hasta aquí...
     updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
 
     currentSelection.group = 'blob-group-' + newGroupColor;
@@ -141,7 +141,7 @@ const updateSinglesPalette = function (newGroupColor, origin) {
     ', 100%, 50%);border: solid, 1px black;';
 };
 
-// :REFACTOR: > DRY see createOldSingleColorArray
+// // :DONE: :REFACTOR: > DRY see createOldSingleColorArray
 /* ############################################# */
 const createNewSingleColorArray = function (newGroupColor) {
   let newSingleColorArray = [];
@@ -168,7 +168,7 @@ const createNewSingleColorArray = function (newGroupColor) {
   return newSingleColorArray;
 };
 
-// :REFACTOR: > DRY see createNewSingleColorArray
+// // :DONE: :REFACTOR: > DRY see createNewSingleColorArray
 /* ############################################# */
 const createOldSingleColorArray = function () {
   let oldSingleColorArray = [];
@@ -225,7 +225,6 @@ const updateSinglesPaletteDisplay = function (
     ).textContent = newSingleColorArray[i];
   }
 
-  // :DEBUG: Vamos aquí...
   document.getElementById(
     'blob-single-' + newSingleColorArray[14]
   ).style.border = '4px solid black';
@@ -233,8 +232,10 @@ const updateSinglesPaletteDisplay = function (
   updateShadesPalette(newSingleColorArray[14]);
 };
 
+// :TODO:
 /* ############################################# */
 const updateShadesPalette = function (blobColor) {
+  // :TODO: vamos aquí...
   return;
 };
 
