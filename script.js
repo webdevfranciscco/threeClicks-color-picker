@@ -138,7 +138,7 @@ const updateSinglesPalette = function (newGroupColor, origin) {
   document.getElementById('large-blob').style =
     'background-color: hsl(' +
     newGroupColor +
-    ', 100%, 50%);border: solid, 1px black;';
+    ', 100%, 50%);border: solid, 2px black;';
 };
 
 // // :DONE: :REFACTOR: > DRY see createOldSingleColorArray
