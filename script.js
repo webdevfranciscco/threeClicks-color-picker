@@ -14,7 +14,6 @@ let newSelection = {
   group: '',
   single: '',
   shade: '',
-  lastClickedColor: '279070040',
 };
 
 /* #############################################
@@ -94,6 +93,10 @@ const /* ********************************************* */ // :DONE:
 
 const /* ********************************************* */ // :DONE:
   clearShadeSelection = function () {
+    console.log(
+      'clearShadeSelection() : currentSelection.shade > ',
+      currentSelection.shade
+    );
     document.getElementById(currentSelection.shade).style.border =
       '1px solid black';
   };
@@ -144,7 +147,6 @@ const /* ********************************************* */ // :DONE:
         ', 100%, 50%); border: 4px solid black;';
 
       currentSelection.single = 'blob-single-' + newGroupColor;
-      currentSelection.shade = 'blob-shade-279070040';
     }
     document.getElementById('large-blob').style =
       'background-color: hsl(' +
@@ -294,7 +296,9 @@ const /* ********************************************* */
     //
     currentSelection.shade = `blob-shade-${newColor
       .toString()
-      .padStart(3, '0')}070040`;
+      .padStart(3, '0')}100050`;
+    document.getElementById(currentSelection.shade).style.border =
+      '4px solid black';
   };
 
 const /* ********************************************* */
