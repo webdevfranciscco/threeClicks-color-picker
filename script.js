@@ -1,8 +1,8 @@
 'use strict';
 
-/***********
-  variables 
- ***********/
+/* #############################################
+     variables
+   ############################################# */
 
 let currentSelection = {
   group: 'blob-group-285',
@@ -17,274 +17,348 @@ let newSelection = {
   lastClickedColor: '279070040',
 };
 
-/***********
-  functions 
- ***********/
+/* #############################################
+     functions
+   ############################################# */
 
-// :DONE:
-/* ############################################# */
-const markInitialSelection = function () {
-  document.getElementById(currentSelection.group).style =
-    'border: 4px solid black;';
-
-  document.getElementById(currentSelection.single).style.border =
-    '4px solid black';
-
-  document.getElementById(currentSelection.shade).style =
-    'border: 4px solid black;';
-};
-
-// :DONE:
-/* ############################################# */
-let clickedItemIsBlob = function (itemsId) {
-  if (itemsId === undefined) return 'undefined';
-  return itemsId.substring(0, 4) === 'blob';
-};
-
-// :DONE:
-/* ############################################# */
-let getBlobData = function (itemsId) {
-  const blobData = {};
-  if (itemsId.substring(5, 10) === 'group') {
-    blobData.blobType = 'group';
-    blobData.blobColor = itemsId.substring(11, 14);
-  } else if (itemsId.substring(5, 11) === 'single') {
-    blobData.blobType = 'single';
-    blobData.blobColor = itemsId.substring(12, 15);
-  } else if (itemsId.substring(5, 10) === 'shade') {
-    blobData.blobType = 'shade';
-    blobData.blobColor = itemsId.substring(11, 20);
-  }
-
-  return blobData;
-};
-
-// :DONE:
-/* ############################################# */
-let updateColorPalette = function (blobType, blobColor) {
-  if (blobType === 'group') updateGroupsPalette(blobColor);
-  else if (blobType === 'single') updateSinglesPalette(blobColor, 'listener');
-  else if (blobType === 'shade') updateShadesPalette(blobColor);
-};
-
-// :DONE:
-/* ############################################# */
-const clearCurrentSelection = function () {
-  document.getElementById(currentSelection.group).style.border =
-    '1px solid black';
-
-  // handle exception when group blob color is 0, but single blob color is 360
-  if (currentSelection.single === 'blob-single-0')
-    currentSelection.single = 'blob-single-360';
-  document.getElementById(currentSelection.single).style.border =
-    '1px solid black';
-
-  document.getElementById(currentSelection.shade).style.border =
-    '1px solid black';
-
-  // NOTE (a1/2)
-  // a red blob with a 'blob-group-0' id is present in the blob-group set,
-  // this is to allow having a red blob displayed at both ends of the blob-group set.
-  // however, internally, this has to be handled as a special case in this code block
-  // by clearing group blob 'blob-group-0' each time it is selected
-  // this problem originates from the fact that only one element can have the
-  // 'blob-group-360' id and, therefore, the first blob representing color 360 has the
-  // 'blob-group-0' id
-  document.getElementById('blob-group-0').style.border = '1px solid black';
-};
-
-// :DONE:
-/* ############################################# */
-const updateGroupsPalette = function (newGroupColor) {
-  markBlobWithCursor('group', newGroupColor);
-  updateSinglesPalette(newGroupColor, 'group');
-};
-
-// :TODO: :DRY:
-/* ############################################# */
-const markBlobWithCursor = function (type, blobId) {
-  // type can be either 'group', 'single' or 'shade'
-  document.getElementById('blob-' + type + '-' + blobId).style =
-    'border: 4px solid black;';
-};
-
-// :DONE:
-/* ############################################# */
-const updateSinglesPalette = function (newGroupColor, origin) {
-  if (origin === 'group') {
-    const newSingleColorArray = createNewSingleColorArray(newGroupColor);
-    const oldSingleColorArray = createOldSingleColorArray();
-
-    updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
-
-    currentSelection.group = 'blob-group-' + newGroupColor;
-    currentSelection.single = 'blob-single-' + newGroupColor;
-    currentSelection.shade = 'blob-shade-279070040';
-  } else if (origin === 'listener') {
-    //
+const /* ********************************************* */ // :DONE:
+  markInitialSelection = function () {
     document.getElementById(currentSelection.group).style =
-      'background-color: hsl(' +
-      currentSelection.group +
-      ', 100%, 50%); border: 4px solid black;';
+      'border: 4px solid black;';
 
-    document.getElementById('blob-single-' + newGroupColor).style =
+    document.getElementById(currentSelection.single).style.border =
+      '4px solid black';
+
+    document.getElementById(currentSelection.shade).style =
+      'border: 4px solid black;';
+  };
+
+const /* ********************************************* */ // :DONE:
+  clickedItemIsBlob = function (itemsId) {
+    if (itemsId === undefined) return 'undefined';
+    return itemsId.substring(0, 4) === 'blob';
+  };
+
+const /* ********************************************* */ // :DONE:
+  getBlobData = function (itemsId) {
+    const blobData = {};
+    if (itemsId.substring(5, 10) === 'group') {
+      blobData.blobType = 'group';
+      blobData.blobColor = itemsId.substring(11, 14);
+    } else if (itemsId.substring(5, 11) === 'single') {
+      blobData.blobType = 'single';
+      blobData.blobColor = itemsId.substring(12, 15);
+    } else if (itemsId.substring(5, 10) === 'shade') {
+      blobData.blobType = 'shade';
+      blobData.blobColor = itemsId.substring(11, 20);
+    }
+
+    return blobData;
+  };
+
+const /* ********************************************* */ // :DONE:
+  updateColorPalette = function (blobType, blobColor) {
+    if (blobType === 'group') updateGroupsPalette(blobColor);
+    else if (blobType === 'single')
+      updateSinglesPalette(blobColor, 'clickListener');
+    else if (blobType === 'shade')
+      updateShadesPalette(blobColor, 'clickListener');
+  };
+
+const /* ********************************************* */ // :DONE:
+  clearGroupSelection = function () {
+    document.getElementById(currentSelection.group).style.border =
+      '1px solid black';
+  };
+
+const /* ********************************************* */ // :DONE:
+  clearSingleSelection = function () {
+    // NOTE (a1/2)
+
+    // a red blob with a 'blob-group-0' id is present in the blob-group set,
+    // this is to allow having a red blob displayed at both ends of the blob-group set.
+    // however, internally, this has to be handled as a special case in this code block
+    // by changing its id to blob 'blob-group-360', so that the single colors set
+    // is updated accordingly
+
+    // this problem originates from the fact that only one element can have the
+    // 'blob-group-360' id and, therefore, the first blob representing color 360 has the
+    // 'blob-group-0' id
+
+    // handle the exception when group blob color is 0, but single blob color is 360:
+    if (currentSelection.single === 'blob-single-0')
+      currentSelection.single = 'blob-single-360';
+    document.getElementById(currentSelection.single).style.border =
+      '1px solid black';
+  };
+
+const /* ********************************************* */ // :DONE:
+  clearShadeSelection = function () {
+    document.getElementById(currentSelection.shade).style.border =
+      '1px solid black';
+  };
+
+const /* ********************************************* */ // :DONE:
+  updateGroupsPalette = function (newGroupColor) {
+    clearGroupSelection();
+    'updateGroupsPalette() : newGroupColor', newGroupColor;
+    markBlobWithCursor(newGroupColor, 'group'); // :NOTE: crossref&01
+    updateSinglesPalette(newGroupColor, 'updateGroupsPaletteFunction');
+  };
+
+const /* ********************************************* */ // :DRY:// :NOTE: crossref&01
+  markBlobWithCursor = function (blobId, type) {
+    // type can be either 'group', 'single' or 'shade'
+    document.getElementById('blob-' + type + '-' + blobId).style =
+      'border: 4px solid black;';
+  };
+
+const /* ********************************************* */ // :DONE:
+  updateSinglesPalette = function (newGroupColor, origin) {
+    clearSingleSelection();
+    if (origin === 'updateGroupsPaletteFunction') {
+      const newSingleColorArray = createNewSingleColorArray(newGroupColor);
+      const oldSingleColorArray = createOldSingleColorArray();
+
+      updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
+
+      currentSelection.group = 'blob-group-' + newGroupColor;
+      currentSelection.single = 'blob-single-' + newGroupColor;
+
+      if (newGroupColor === '0')
+        currentSelection.shade = `blob-shade-360070040`;
+      else
+        currentSelection.shade = `blob-shade-${newGroupColor
+          .toString()
+          .padStart(3, '0')}070040`;
+    } else if (origin === 'clickListener') {
+      //
+      document.getElementById(currentSelection.group).style =
+        'background-color: hsl(' +
+        currentSelection.group +
+        ', 100%, 50%); border: 4px solid black;';
+
+      document.getElementById('blob-single-' + newGroupColor).style =
+        'background-color: hsl(' +
+        newGroupColor +
+        ', 100%, 50%); border: 4px solid black;';
+
+      currentSelection.single = 'blob-single-' + newGroupColor;
+      currentSelection.shade = 'blob-shade-279070040';
+    }
+    document.getElementById('large-blob').style =
       'background-color: hsl(' +
       newGroupColor +
-      ', 100%, 50%); border: 4px solid black;';
+      ', 100%, 50%);border: solid, 2px black;';
+  };
 
-    currentSelection.single = 'blob-single-' + newGroupColor;
-    currentSelection.shade = 'blob-shade-279070040';
-  }
-  document.getElementById('large-blob').style =
-    'background-color: hsl(' +
-    newGroupColor +
-    ', 100%, 50%);border: solid, 2px black;';
-};
+// :DRY: - see createOldSingleColorArray
+const /* ********************************************* */ //:DONE:
+  createNewSingleColorArray = function (newGroupColor) {
+    let newSingleColorArray = [];
+    let newColorIndex = 0;
 
-// // :DONE: :REFACTOR: > DRY see createOldSingleColorArray
-/* ############################################# */
-const createNewSingleColorArray = function (newGroupColor) {
-  let newSingleColorArray = [];
-  let newColorIndex = 0;
+    let newBaseColor = Number(newGroupColor);
 
-  let newBaseColor = Number(newGroupColor);
-
-  // NOTE (b1/2)
-  //  the HSL color space is circular, before 0deg comes 359deg and after 360deg comes 1deg
-  // this code handles that by making sure we go from 259 to 360 to 1 and viceversa
-  // same for createOldSingleColorArray() see note (b2/2)
-  for (let i = -14; i <= 14; i++) {
-    newColorIndex = 14 + i;
-    if (newBaseColor + i < 0) {
-      newSingleColorArray[newColorIndex] = 360 - newBaseColor + i;
-    } else if (newBaseColor + i > 360) {
-      newSingleColorArray[newColorIndex] = i;
-    } else if (newBaseColor + i === 0) {
-      newSingleColorArray[newColorIndex] = 360;
-    } else {
-      newSingleColorArray[newColorIndex] = newBaseColor + i;
+    // NOTE (b1/2)
+    //  the HSL color space is circular, before 0deg comes 359deg and after 360deg comes 1deg
+    // this code handles that by making sure we go from 259 to 360 to 1 and viceversa
+    // same for createOldSingleColorArray() see note (b2/2)
+    for (let i = -14; i <= 14; i++) {
+      newColorIndex = 14 + i;
+      if (newBaseColor + i < 0) {
+        newSingleColorArray[newColorIndex] = 360 - newBaseColor + i;
+      } else if (newBaseColor + i > 360) {
+        newSingleColorArray[newColorIndex] = i;
+      } else if (newBaseColor + i === 0) {
+        newSingleColorArray[newColorIndex] = 360;
+      } else {
+        newSingleColorArray[newColorIndex] = newBaseColor + i;
+      }
     }
-  }
-  return newSingleColorArray;
-};
+    return newSingleColorArray;
+  };
 
-// // :DONE: :REFACTOR: > DRY see createNewSingleColorArray
-/* ############################################# */
-const createOldSingleColorArray = function () {
-  let oldSingleColorArray = [];
-  let oldColorIndex = 0;
+// :DRY: - see createNewSingleColorArray
+const /* ********************************************* */ // :DONE:
+  createOldSingleColorArray = function () {
+    let oldSingleColorArray = [];
+    let oldColorIndex = 0;
 
-  // NOTE (b2/2)
-  // same case as indicated in note (b1/2) for createNewSingleColorArray()
+    // NOTE (b2/2)
+    // same case as indicated in note (b1/2) for createNewSingleColorArray()
 
-  let oldBaseColor = Number(getBlobData(currentSelection.group).blobColor);
+    let oldBaseColor = Number(getBlobData(currentSelection.group).blobColor);
 
-  for (let i = -14; i <= 14; i++) {
-    oldColorIndex = 14 + i;
-    if (oldBaseColor + i < 0) {
-      oldSingleColorArray[oldColorIndex] = 360 - oldBaseColor + i;
-    } else if (oldBaseColor + i > 360) {
-      oldSingleColorArray[oldColorIndex] = i;
-    } else if (oldBaseColor + i === 0) {
-      oldSingleColorArray[oldColorIndex] = 360;
-    } else {
-      oldSingleColorArray[oldColorIndex] = oldBaseColor + i;
+    for (let i = -14; i <= 14; i++) {
+      oldColorIndex = 14 + i;
+      if (oldBaseColor + i < 0) {
+        oldSingleColorArray[oldColorIndex] = 360 - oldBaseColor + i;
+      } else if (oldBaseColor + i > 360) {
+        oldSingleColorArray[oldColorIndex] = i;
+      } else if (oldBaseColor + i === 0) {
+        oldSingleColorArray[oldColorIndex] = 360;
+      } else {
+        oldSingleColorArray[oldColorIndex] = oldBaseColor + i;
+      }
     }
-  }
-  return oldSingleColorArray;
-};
+    return oldSingleColorArray;
+  };
 
-// :DONE:
-/* ############################################# */
-const updateSinglesPaletteDisplay = function (
-  oldSingleColorArray,
-  newSingleColorArray
-) {
-  for (let i = 0; i <= 28; i++) {
-    //
-    // assign temporary ids to single blobs
-    document
-      .getElementById('blob-single-' + oldSingleColorArray[i])
-      .setAttribute('id', 'temp-id-' + i);
-  }
+const /* ********************************************* */ // :DONE:
+  updateSinglesPaletteDisplay = function (
+    oldSingleColorArray,
+    newSingleColorArray
+  ) {
+    for (let i = 0; i <= 28; i++) {
+      //
+      // assign temporary ids to single blobs
+      document
+        .getElementById('blob-single-' + oldSingleColorArray[i])
+        .setAttribute('id', 'temp-id-' + i);
+    }
 
-  for (let i = 0; i <= 28; i++) {
-    //
-    // change the old id for the new id
-    // on each blob DOM element of the singles palette
-    document
-      .getElementById('temp-id-' + i)
-      .setAttribute('id', 'blob-single-' + newSingleColorArray[i]);
+    for (let i = 0; i <= 28; i++) {
+      //
+      // change the old id for the new id
+      // on each blob DOM element of the singles palette
+      document
+        .getElementById('temp-id-' + i)
+        .setAttribute('id', 'blob-single-' + newSingleColorArray[i]);
 
-    // update the hue of the single color blobs
-    document.getElementById('blob-single-' + newSingleColorArray[i]).style =
-      'background-color: hsl(' + newSingleColorArray[i] + ', 100%, 50%);';
+      // update the hue of the single color blobs
+      document.getElementById('blob-single-' + newSingleColorArray[i]).style =
+        'background-color: hsl(' + newSingleColorArray[i] + ', 100%, 50%);';
+
+      document.getElementById(
+        'blob-single-' + newSingleColorArray[i]
+      ).textContent = newSingleColorArray[i];
+    }
 
     document.getElementById(
-      'blob-single-' + newSingleColorArray[i]
-    ).textContent = newSingleColorArray[i];
-  }
+      'blob-single-' + newSingleColorArray[14]
+    ).style.border = '4px solid black';
 
-  document.getElementById(
-    'blob-single-' + newSingleColorArray[14]
-  ).style.border = '4px solid black';
+    updateShadesPalette(
+      newSingleColorArray[14],
+      'updateSinglesPaletteDisplayFunction'
+    );
+  };
 
-  updateShadesPalette(newSingleColorArray[14]);
-};
+const /* ********************************************* */
+  setShadesPaletteTemporaryIds = function (oldColor, newColor) {
+    let ss = 0;
+    let ll = 0;
+    let id = '';
+    let currentId = '';
+    let temporaryId = '';
+    let newId = '';
+    for (let s = 0; s <= 100; s += 10) {
+      ss = s.toString().padStart(3, '0');
+      for (let l = 0; l <= 100; l += 10) {
+        ll = l.toString().padStart(3, '0');
+        currentId =
+          'blob-shade-' + oldColor.toString().padStart(3, '0') + ss + ll;
+        temporaryId = 'blob-shade-777' + ss + ll;
 
-// :TODO:
-/* ############################################# */
-const updateShadesPalette = function (blobColor) {
-  // :TODO: vamos aquí...
-  return;
-};
+        // assign temporary ids to single blobs
+        document.getElementById(currentId).setAttribute('id', temporaryId);
+      }
+    }
 
-/* ############################################# */
-let main = function (clickedItemsId) {
-  if (clickedItemIsBlob(clickedItemsId)) {
-    const blobData = getBlobData(clickedItemsId);
-    const blobType = blobData.blobType;
-    const blobColor = blobData.blobColor;
+    for (let s = 0; s <= 100; s += 10) {
+      ss = s.toString().padStart(3, '0');
+      for (let l = 0; l <= 100; l += 10) {
+        ll = l.toString().padStart(3, '0');
+        temporaryId = 'blob-shade-777' + ss + ll;
+        newId = 'blob-shade-' + newColor.toString().padStart(3, '0') + ss + ll;
 
-    document.querySelector('h3').textContent = clickedItemsId; // :TODO: :DELETE: - Delete me - Code used only for debugging purposes
+        // document.getElementById(currentId).;
+        // assign temporary ids to single blobs
+        document.getElementById(temporaryId).setAttribute('id', newId);
+        document.getElementById(
+          newId
+        ).style.backgroundColor = `hsl(${newColor}, ${ss}%, ${ll}%)`;
+      }
+    }
+  };
 
-    clearCurrentSelection();
+const /* ********************************************* */
+  updateShadesPalette = function (newColor, origin) {
+    clearShadeSelection();
+    setShadesPaletteTemporaryIds(
+      getShadeData(getBlobData(currentSelection.shade).blobColor).hue,
+      newColor
+    );
 
-    updateColorPalette(blobType, blobColor);
-  }
-};
+    //
+    currentSelection.shade = `blob-shade-${newColor
+      .toString()
+      .padStart(3, '0')}070040`;
+  };
 
-/***************
-  program logic
- ***************/
+const /* ********************************************* */
+  getShadeData = function (blobColor) {
+    const shadeData = {};
+
+    shadeData.hue = blobColor.substring(0, 3);
+    shadeData.saturation = blobColor.substring(3, 6);
+    shadeData.luminance = blobColor.substring(6, 10);
+
+    return shadeData;
+  };
+
+const /* ********************************************* */ // :HIGHLIGHT: Hacer esta funcion?
+  createOldShadesColorArray = function (blobCOlor) {};
+
+const /* ********************************************* */
+  main = function (clickedItemsId) {
+    if (clickedItemIsBlob(clickedItemsId)) {
+      const blobData = getBlobData(clickedItemsId);
+      const blobType = blobData.blobType;
+      const blobColor = blobData.blobColor;
+
+      document.querySelector('h3').textContent = clickedItemsId; //:DELETE: Debugging code
+
+      // clearShadeSelection();
+
+      updateColorPalette(blobType, blobColor);
+    }
+  };
+
+/* #############################################
+     program logic
+   ############################################# */
 
 /*
-   program execution starts here
-
-   by marking the color blobs, corresponding to the 
-   initial color selection, with a black 4px border:
-
-        currentSelection = {
-            group: 'blob-group-285',
-            single: 'blob-single-279',
-            shade: 'blob-shade-279070040',
-          };
-          
+   ***********************************
+   ** PROGRAM EXECUTION STARTS HERE **
+   ***********************************
+   
+    by marking the color blobs, corresponding to the 
+    initial color selection, with a black 4px border:
+    
+      currentSelection = {
+        group: 'blob-group-285',
+        single: 'blob-single-279',
+        shade: 'blob-shade-279070040',
+      };
+  
 */
 
 markInitialSelection();
 
 /*
-   then a 'click' event listener is set up
+ a 'click' event listener is set up...
+ 
+ upon clicking on the screen,
+ main() is called with the clicked element's id
+ as argument, starting the corresponding response   
+ */
 
-   upon clicking on the screen,
-   main() is called with the clicked element's id
-   as argument, starting the corresponding response   
-*/
-
-/*****************
-  event listeners 
- *****************/
+/* #############################################
+      event listeners
+   ############################################# */
 
 document.querySelector('body').addEventListener('click', function (event) {
   //
@@ -293,19 +367,15 @@ document.querySelector('body').addEventListener('click', function (event) {
   main(clickedElementsId);
 });
 
-/*****************
-  developer notes
- *****************/
+/* #############################################
+     developer notes
+   ############################################# */
 
-//
-// :TODO:
-//
-// :FIX: when clicking the 0 blob of the group palette, selecting cusrosr stop working
 // explore what happens with single id when a new group id is chosen
 
-// ***************************
-//  HIGHLIGHT TAGS & SNIPPETS
-// ***************************
+/* #############################################
+     HIGHLIGHT TAGS & SNIPPETS
+   ############################################# */
 
 // document
 
@@ -314,6 +384,8 @@ document.querySelector('body').addEventListener('click', function (event) {
 // console.log
 
 // :REFACTOR: /ref
+
+// :HIGHLIGHT: /hig
 
 // :DELETE: /del
 
