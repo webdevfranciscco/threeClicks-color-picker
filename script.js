@@ -248,7 +248,7 @@ const /* ********************************************* */ // :DONE:
   };
 
 const /* ********************************************* */
-  setShadesPaletteTemporaryIds = function (oldColor, newColor) {
+  updateShadesPaletteDisplay = function (oldColor, newColor) {
     let ss = 0;
     let ll = 0;
     let id = '';
@@ -288,9 +288,18 @@ const /* ********************************************* */
 const /* ********************************************* */
   updateShadesPalette = function (newColor, origin) {
     clearShadeSelection();
-    setShadesPaletteTemporaryIds(
+    updateShadesPaletteDisplay(
       getShadeData(getBlobData(currentSelection.shade).blobColor).hue,
       newColor
+    );
+
+    console.log(
+      'updateShadesPalette() : currentSelection.shade > ',
+      currentSelection.shade
+    );
+    console.log(
+      'updateShadesPalette() : currentSelection.single > ',
+      currentSelection.single
     );
 
     //
@@ -299,6 +308,10 @@ const /* ********************************************* */
       .padStart(3, '0')}100050`;
     document.getElementById(currentSelection.shade).style.border =
       '4px solid black';
+    console.log(
+      'updateShadesPalette() : currentSelection.shade > ',
+      currentSelection.shade
+    );
   };
 
 const /* ********************************************* */
