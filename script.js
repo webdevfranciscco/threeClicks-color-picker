@@ -59,9 +59,10 @@ const /* ********************************************* */ // :DONE:
   updateColorPalette = function (blobType, blobColor) {
     if (blobType === 'group') updateGroupsPalette(blobColor);
     else if (blobType === 'single')
-      updateSinglesPalette(blobColor, 'clickListener');
-    else if (blobType === 'shade')
-      updateShadesPalette(blobColor, 'clickListener');
+      updateSinglesPalette(blobColor, 'clickListenerForSingle');
+    else if (blobType === 'shade') {
+      updateShadesPalette(blobColor, 'clickListenerForShade');
+    }
   };
 
 const /* ********************************************* */ // :DONE:
@@ -106,13 +107,12 @@ const /* ********************************************* */ // :DONE:
   };
 
 const /* ********************************************* */ // :DRY:// :NOTE: crossref&01
-  markBlobWithCursor = function (blobId, type) {
+  markBlobWithCursor = function (color, type) {
     // type can be either 'group', 'single' or 'shade'
-    document.getElementById('blob-' + type + '-' + blobId).style.border =
+    document.getElementById('blob-' + type + '-' + color).style.border =
       '4px solid black';
   };
 
-// :HIGHLIGHT: :HIGHLIGHT: :HIGHLIGHT: :HIGHLIGHT: :HIGHLIGHT:
 const /* ********************************************* */ // :DONE:
   updateSinglesPalette = function (newGroupColor, origin) {
     clearSingleSelection();
@@ -126,13 +126,12 @@ const /* ********************************************* */ // :DONE:
       currentSelection.single = 'blob-single-' + newGroupColor;
 
       if (newGroupColor === '0')
-        currentSelection.shade = `blob-shade-360070040`;
+        currentSelection.shade = `blob-shade-360100050`;
       else
         currentSelection.shade = `blob-shade-${newGroupColor
           .toString()
-          .padStart(3, '0')}070040`;
-      console.log('updateSinglesPalette() : Origin > ', origin);
-    } else if (origin === 'clickListener') {
+          .padStart(3, '0')}100050`;
+    } else if (origin === 'clickListenerForSingle') {
       // mmark selection of clicked single blob // :DELETE: text for debugging purposes
       document.getElementById('blob-single-' + newGroupColor).style.border =
         '4px solid black';
@@ -140,11 +139,9 @@ const /* ********************************************* */ // :DONE:
       // uupdate currentSelection.single // :DELETE: text for debugging purposes
       currentSelection.single = 'blob-single-' + newGroupColor;
 
-      console.log('updateSinglesPalette() : Origin > ', origin);
       updateShadesPalette(newGroupColor, 'updateSinglesPaletteFunction');
     }
 
-    // uupdate large-blob // :DELETE: text for debugging purposes
     document.getElementById('large-blob').style.backgroundColor =
       'hsl(' + newGroupColor + ', 100%, 50%)';
   };
@@ -229,19 +226,16 @@ const /* ********************************************* */ // :DONE:
       ).style.backgroundColor =
         'hsl(' + newSingleColorArray[i] + ', 100%, 50%)';
 
-      document.getElementById(
-        'blob-single-' + newSingleColorArray[i]
-      ).textContent = newSingleColorArray[i];
+      // :DELETE: numbers on single blobs used just for debugging purposes
+      // document.getElementById(
+      //   'blob-single-' + newSingleColorArray[i]
+      // ).textContent = newSingleColorArray[i];
     }
 
     document.getElementById(
       'blob-single-' + newSingleColorArray[14]
     ).style.border = '4px solid black';
 
-    console.log(
-      'updateSinglesPaletteDisplay() : newSingleColorArray[14] > ',
-      newSingleColorArray[14]
-    );
     updateShadesPalette(
       newSingleColorArray[14],
       'updateSinglesPaletteDisplayFunction'
@@ -290,17 +284,35 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   updateShadesPalette = function (newColor, origin) {
-    clearShadeSelection();
-    updateShadesPaletteDisplay(
-      getShadeData(getBlobData(currentSelection.shade).blobColor).hue,
-      newColor
-    );
-
-    currentSelection.shade = `blob-shade-${newColor
-      .toString()
-      .padStart(3, '0')}100050`;
-    document.getElementById(currentSelection.shade).style.border =
-      '4px solid black';
+    if (
+      origin === 'updateSinglesPaletteDisplayFunction' ||
+      origin === 'updateSinglesPaletteFunction'
+    ) {
+      clearShadeSelection();
+      updateShadesPaletteDisplay(
+        getShadeData(getBlobData(currentSelection.shade).blobColor).hue,
+        newColor
+      );
+      currentSelection.shade = `blob-shade-${newColor
+        .toString()
+        .padStart(3, '0')}100050`;
+      document.getElementById(currentSelection.shade).style.border =
+        '4px solid black';
+      document.getElementById('large-blob').style.backgroundColor =
+        'hsl(' + newColor.toString().substring(0, 3) + ', 100%, 50%)';
+    } else {
+      clearShadeSelection();
+      markBlobWithCursor(newColor, 'shade');
+      document.getElementById('large-blob').style.backgroundColor =
+        'hsl(' +
+        newColor.toString().substring(0, 3) +
+        ', ' +
+        newColor.toString().substring(3, 6) +
+        '%, ' +
+        newColor.toString().substring(6, 10) +
+        '%)';
+      currentSelection.shade = `blob-shade-${newColor}`;
+    }
   };
 
 const /* ********************************************* */
@@ -313,9 +325,6 @@ const /* ********************************************* */
 
     return shadeData;
   };
-
-const /* ********************************************* */ // :HIGHLIGHT: Hacer esta funcion?
-  createOldShadesColorArray = function (blobCOlor) {};
 
 const /* ********************************************* */
   main = function (clickedItemsId) {
