@@ -8,6 +8,8 @@ let currentSelection = {
   group: 'blob-group-285',
   single: 'blob-single-279',
   shade: 'blob-shade-279070040',
+  shadeSaturationLabel: 'v070', // : NEW!!! :
+  shadeLuminanceLabel: 'h040', // : NEW!!! :
 };
 
 let newSelection = {
@@ -230,11 +232,6 @@ const /* ********************************************* */
       //
       singleBlobLabelId = `sbl${i}`;
 
-      console.log(
-        'updateSinglesPaletteDisplay[] : i, singleBlobLabelId',
-        i,
-        singleBlobLabelId
-      );
       document.getElementById(singleBlobLabelId).innerText =
         newSingleColorArray[i].toString();
     }
@@ -242,7 +239,7 @@ const /* ********************************************* */
     markBlobWithCursor(newSingleColorArray[14], 'single');
 
     updateShadesPalette(
-      newSingleColorArray[14],
+      newSingleColorArray[14].toString(),
       'updateSinglesPaletteDisplayFunction'
     );
   };
@@ -307,8 +304,11 @@ const /* ********************************************* */
 
       document.getElementById('large-blob').style.backgroundColor =
         'hsl(' + newColor.toString().substring(0, 3) + ', 100%, 50%)';
-    } else {
+    } else if (origin === 'clickListenerForShade') {
       clearShadeSelection();
+
+      clearSelectedShadeLabels();
+      markSelectedShadeLabels(newColor);
       markBlobWithCursor(newColor, 'shade');
       document.getElementById('large-blob').style.backgroundColor =
         'hsl(' +
@@ -320,6 +320,52 @@ const /* ********************************************* */
         '%)';
       currentSelection.shade = `blob-shade-${newColor}`;
     }
+  };
+
+const /* ********************************************* */
+  clearSelectedShadeLabels = function (newColor) {
+    const saturationLabelId = currentSelection.shadeSaturationLabel;
+    console.log(
+      'markSelectedShadeLabels[] : saturationLabelId > ',
+      saturationLabelId
+    );
+    document.getElementById(saturationLabelId).style.fontWeight = '100';
+    document.getElementById(saturationLabelId).style.color = 'black';
+    document.getElementById(saturationLabelId).style.textShadow = '0px 0px 0px';
+
+    const luminanceLabelId = currentSelection.shadeLuminanceLabel;
+    console.log(
+      'markSelectedShadeLabels[] : luminanceLabelId > ',
+      luminanceLabelId
+    );
+    document.getElementById(luminanceLabelId).style.fontWeight = '100';
+    document.getElementById(luminanceLabelId).style.color = 'black';
+    document.getElementById(luminanceLabelId).style.textShadow = '0px 0px 0px';
+  };
+
+const /* ********************************************* */
+  markSelectedShadeLabels = function (newColor) {
+    const saturation = getShadeData(newColor).saturation;
+    const saturationLabelId = `v${saturation}`;
+
+    document.getElementById(saturationLabelId).style.fontWeight = '900';
+    document.getElementById(saturationLabelId).style.textShadow =
+      '0px 0px 10px hsl(270, 100%, 50%)';
+    document.getElementById(saturationLabelId).style.color =
+      'hsl(270, 100%, 50%)';
+
+    currentSelection.shadeSaturationLabel = saturationLabelId;
+
+    const luminance = getShadeData(newColor).luminance;
+    const luminanceLabelId = `h${luminance}`;
+
+    document.getElementById(luminanceLabelId).style.fontWeight = '900';
+    document.getElementById(luminanceLabelId).style.textShadow =
+      '0px 0px 10px hsl(270, 100%, 50%)';
+    document.getElementById(luminanceLabelId).style.color =
+      'hsl(270, 100%, 50%)';
+
+    currentSelection.shadeLuminanceLabel = luminanceLabelId;
   };
 
 const /* ********************************************* */
