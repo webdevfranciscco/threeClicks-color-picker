@@ -235,8 +235,8 @@ const /* ********************************************* */
         i,
         singleBlobLabelId
       );
-      document.getElementById(singleBlobLabelId).textContent =
-        newSingleColorArray[i];
+      document.getElementById(singleBlobLabelId).innerText =
+        newSingleColorArray[i].toString();
     }
 
     markBlobWithCursor(newSingleColorArray[14], 'single');
