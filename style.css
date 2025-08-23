@@ -101,13 +101,7 @@ h3 {
 }
 
 .horizontal-text {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.horizontal-text > p {
-  margin: 5px;
+  margin-top: 0.6rem;
 }
 
 .horizontal-text-shade {
@@ -120,16 +114,9 @@ h3 {
   margin: 16px;
 }
 .vertical-text {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-right: -5px;
-}
-
-.vertical-text > p {
-  width: 30px;
-  height: 1rem;
   transform: rotate(-90deg);
+  margin-left: 0.7rem;
+  margin-top: 0.5rem;
 }
 
 .h040 p {
