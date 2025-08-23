@@ -94,15 +94,21 @@ h3 {
   text-align: center;
 }
 
+/* ********************************************* */
+
 .blob {
   border: 1px solid black;
   padding: 5px;
   border-radius: 25%;
 }
 
+/* ********************************************* */
+
 .horizontal-text {
   margin-top: 0.6rem;
 }
+
+/* ********************************************* */
 
 .horizontal-text-shade {
   display: flex;
@@ -113,18 +119,22 @@ h3 {
 .horizontal-text-shade > p {
   margin: 16px;
 }
+
+#h040 {
+  font-weight: 900;
+  text-shadow: 0px 0px 10px hsl(270, 100%, 50%);
+  color: hsl(270, 100%, 50%);
+}
+
+/* ********************************************* */
+
 .vertical-text {
   transform: rotate(-90deg);
   margin-left: 0.7rem;
   margin-top: 0.5rem;
 }
 
-.h040 p {
-  margin-bottom: 6px;
-  padding: 2px 4px 5px 4px;
-  border: 1px solid black;
-  border-radius: 25%;
-}
+/* ********************************************* */
 
 .vertical-text-shade {
   display: flex;
@@ -139,12 +149,10 @@ h3 {
   margin-right: 5px;
 }
 
-.v070 p {
-  padding: 4px 0px 0px 0px;
-  border: 1px solid black;
-  border-radius: 25%;
+#v070 {
+  font-weight: 900;
+  text-shadow: 0px 0px 10px hsl(270, 100%, 50%);
+  color: hsl(270, 100%, 50%);
 }
 
-/*DOING*/
-
-/*tTODO*/
+/* ********************************************* */
