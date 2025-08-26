@@ -40,6 +40,11 @@ h3 {
   text-wrap: pretty;
 }
 
+#color-values div p {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  color: hsl(270, 100%, 40%);
+}
 #color-values-container {
   width: 100%;
   text-align: center;

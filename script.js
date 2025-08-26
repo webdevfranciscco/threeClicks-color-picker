@@ -8,8 +8,8 @@ let currentSelection = {
   group: 'blob-group-285',
   single: 'blob-single-279',
   shade: 'blob-shade-279070040',
-  shadeSaturationLabel: 'v070', // : NEW!!! :
-  shadeLuminanceLabel: 'h040', // : NEW!!! :
+  shadeSaturationLabel: 'v070',
+  shadeLuminanceLabel: 'h040',
 };
 
 let newSelection = {};
@@ -40,8 +40,6 @@ const /* ********************************************* */
       // standardize blobColor
       if (blobType === 'single' || blobType === 'group')
         blobColor = blobColor.padStart(3, '0') + '100050';
-
-      document.querySelector('h3').textContent = clickedItemsId; //:DELETE: Debugging code
 
       updateColorPalette(blobType, blobColor);
     }
@@ -81,7 +79,7 @@ const /* ********************************************* */
 const /* ********************************************* */
   updateGroupsPalette = function (blobType, blobColor) {
     clearGroupSelection();
-    const hue = getShadeData(blobColor).hue;
+    const hue = getBlobColorData(blobColor).hue;
     markBlobWithCursor(blobType, hue);
     updateSinglesPalette(blobType, blobColor);
   };
@@ -95,7 +93,7 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   updateSinglesPalette = function (blobType, blobColor) {
-    const hue = getShadeData(blobColor).hue;
+    const hue = getBlobColorData(blobColor).hue;
     if (blobType === 'group') {
       const newSingleColorArray = createNewSingleColorArray(hue);
       const oldSingleColorArray = createOldSingleColorArray();
@@ -106,14 +104,14 @@ const /* ********************************************* */
       currentSelection.group = 'blob-group-' + hue;
       currentSelection.single = 'blob-single-' + hue;
 
-      // :TODO: updateLargeBlobsDisplay
-
+      console.log('blob|Color[group] : blobColor', blobColor);
       updateColorResultDisplay(blobColor);
 
       if (hue === '000') currentSelection.shade = `blob-shade-360100050`;
       else currentSelection.shade = `blob-shade-${hue}100050`;
       currentSelection.single = 'blob-single-' + hue;
     } else if (blobType === 'single') {
+      clearSingleSelection();
       markBlobWithCursor('single', hue);
 
       currentSelection.single = 'blob-single-' + hue;
@@ -183,8 +181,6 @@ const /* ********************************************* */
     let oldHue = '';
     let newHue = '';
     for (let i = 0; i <= 28; i++) {
-      //
-
       oldHue = oldSingleColorArray[i].toString().padStart(3, '0');
       // assign temporary ids to single blobs
       document
@@ -194,7 +190,6 @@ const /* ********************************************* */
 
     for (let i = 0; i <= 28; i++) {
       newHue = newSingleColorArray[i].toString().padStart(3, '0');
-      //
       // change the old id for the new id
       // on each blob DOM element of the singles palette
       document
@@ -209,7 +204,6 @@ const /* ********************************************* */
     let singleBlobLabelId = '';
 
     for (let i = 0; i <= 28; i++) {
-      //
       singleBlobLabelId = `sbl${i}`;
 
       document.getElementById(singleBlobLabelId).innerText =
@@ -222,37 +216,32 @@ const /* ********************************************* */
 
     const newBlobColor = selectedHue.toString() + '070040';
 
-    updateSinglesPalette('single', newBlobColor);
+    updateShadesPalette('single', newBlobColor);
   };
 
 const /* ********************************************* */
   updateShadesPalette = function (origin, blobColor) {
     if (origin === 'single') {
-      // :TODO: blobColor es hue cuando viene de group // :FIX:
       clearShadeSelection();
 
       const currentShadeBlobId = currentSelection.shade;
       const oldColor = getBlobData(currentShadeBlobId).blobColor;
-      const oldHue = getShadeData(oldColor).hue;
+      const oldHue = getBlobColorData(oldColor).hue;
 
-      const newHue = getShadeData(blobColor).hue;
+      const newHue = getBlobColorData(blobColor).hue;
 
       updateShadesPaletteDisplay(oldHue, newHue);
 
       const newShade = `${newHue.toString().padStart(3, '0')}100050`;
 
       currentSelection.shade = `blob-shade-${newShade}`;
-      // shadeSaturationLabel =
-      // shadeLuminanceLabel: 'h040', // : NEW!!! :
-      // :FIX: :FIX: :FIX: :FIX: :FIX: :FIX: :FIX: :FIX: :FIX: :FIX:
 
       markBlobWithCursor('shade', newShade);
 
       clearSelectedShadeLabels();
       markSelectedShadeLabels(newShade);
 
-      // document.getElementById('large-blob').style.backgroundColor =
-      //   'hsl(' + newHue.toString().substring(0, 3) + ', 100%, 50%)';
+      console.log('blob|Color[single] : blobColor', blobColor);
       updateColorResultDisplay(blobColor);
     } else if (origin === 'shade') {
       clearShadeSelection();
@@ -261,14 +250,14 @@ const /* ********************************************* */
       clearSelectedShadeLabels();
       markSelectedShadeLabels(blobColor);
 
-      // the convert to number with the + sign and then to string to remove leading zeros
-
+      console.log('blob|Color[shade] : blobColor', blobColor);
       updateColorResultDisplay(blobColor);
     }
   };
 
 const /* ********************************************* */
   updateColorResultDisplay = function (blobColor) {
+    // convert to number with the + sign and then back to string to remove leading zeros
     const resultHue = +blobColor.substring(0, 3).toString();
     const resultSaturation = +blobColor.substring(3, 6).toString();
     const resultLuminance = +blobColor.substring(6, 10).toString();
@@ -286,7 +275,43 @@ const /* ********************************************* */
       'hsl-result'
     ).textContent = `HSL = (${resultHue}, ${resultSaturation}%,${resultLuminance}%)`;
     currentSelection.shade = `blob-shade-${blobColor}`;
+
+    // Convert hsl to hex (convert arguments to number using the + sign)
+    const hexResult = hslToHex(+resultHue, +resultSaturation, +resultLuminance);
+
+    document.getElementById('hex-result').textContent = `HEX = #${hexResult}`;
   };
+
+const /* ********************************************* */
+  hslToHex = function (hue, saturation, luminance) {
+    const rgb = hslToRgb(hue, saturation, luminance);
+    console.log(rgb);
+    const hex = rgbToHex(...rgb);
+
+    // round the result to an integer hexadecimal number
+    // by converting to decimal and back to hex
+    let decimal = Math.round(parseInt(hex, 16));
+    let roundedHex = decimal.toString(16);
+    console.log(roundedHex);
+    return roundedHex.padStart(6, '0');
+  };
+
+const /* ********************************************* */
+  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
+  hslToRgb = (h, s, l) => {
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n =>
+      l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return [255 * f(0), 255 * f(8), 255 * f(4)];
+  };
+
+const /* ********************************************* */
+  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
+  rgbToHex = (r, g, b) =>
+    ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 
 const /* ********************************************* */
   updateShadesPaletteDisplay = function (oldColor, newColor) {
@@ -368,7 +393,6 @@ const /* ********************************************* */
     document.getElementById(saturationLabelId).style.fontWeight = '100';
     document.getElementById(saturationLabelId).style.color = 'black';
     document.getElementById(saturationLabelId).style.textShadow = 'none';
-    // document.getElementById(saturationLabelId).style.textShadow = '0px 0px 0px';
 
     const luminanceLabelId = currentSelection.shadeLuminanceLabel;
 
@@ -379,7 +403,7 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   markSelectedShadeLabels = function (blobColor) {
-    const saturationLabelId = `v${getShadeData(blobColor).saturation}`;
+    const saturationLabelId = `v${getBlobColorData(blobColor).saturation}`;
 
     document.getElementById(saturationLabelId).style.fontWeight = '900';
     document.getElementById(saturationLabelId).style.textShadow =
@@ -389,9 +413,7 @@ const /* ********************************************* */
 
     currentSelection.shadeSaturationLabel = saturationLabelId;
 
-    // const luminance = getShadeData(newColor).luminance;
-    const luminanceLabelId = `h${getShadeData(blobColor).luminance}`;
-    // const luminanceLabelId = `h${luminance}`;
+    const luminanceLabelId = `h${getBlobColorData(blobColor).luminance}`;
 
     document.getElementById(luminanceLabelId).style.fontWeight = '900';
     document.getElementById(luminanceLabelId).style.textShadow =
@@ -403,8 +425,7 @@ const /* ********************************************* */
   };
 
 const /* ********************************************* */
-  // :REFACTOR: change symbol from getShadeDate to getBlobColorData
-  getShadeData = function (blobColor) {
+  getBlobColorData = function (blobColor) {
     const shadeData = {};
 
     shadeData.hue = blobColor.substring(0, 3);
@@ -449,7 +470,6 @@ markInitialSelection();
    ############################################# */
 
 document.querySelector('body').addEventListener('click', function (event) {
-  //
   const clickedElementsId = event.target.id.toLowerCase();
 
   main(clickedElementsId);
@@ -459,7 +479,7 @@ document.querySelector('body').addEventListener('click', function (event) {
      developer notes
    ############################################# */
 
-// explore what happens with single id when a new group id is chosen
+//
 
 /* #############################################
      HIGHLIGHT TAGS & SNIPPETS
