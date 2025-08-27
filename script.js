@@ -37,7 +37,8 @@ const /* ********************************************* */
       const blobType = blobData.blobType;
       let blobColor = blobData.blobColor;
 
-      // standardize blobColor
+      // standardize blobColor and set to default shade
+      // (maximum saturation & middle luminance, 100%, 50%)
       if (blobType === 'single' || blobType === 'group')
         blobColor = blobColor.padStart(3, '0') + '100050';
 
@@ -47,9 +48,78 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   clickedItemIsBlob = function (itemsId) {
-    // :TODO: Check if this is or will be used
     if (itemsId === undefined) return 'undefined';
     return itemsId.substring(0, 4) === 'blob';
+  };
+
+const /* ********************************************* */
+  updateColorPalette = function (blobType, blobColor) {
+    if (blobType === 'group') updateGroupsPalette('group', blobColor);
+    else if (blobType === 'single') updateSinglesPalette('single', blobColor);
+    else if (blobType === 'shade') updateShadesPalette('shade', blobColor);
+  };
+
+const /* ********************************************* */
+  updateGroupsPalette = function (blobType, blobColor) {
+    clearGroupSelection();
+    const hue = getBlobColorData(blobColor).hue;
+    markBlobWithCursor(blobType, hue);
+    updateSinglesPalette(blobType, blobColor);
+  };
+
+const /* ********************************************* */
+  clearGroupSelection = function () {
+    document.getElementById(currentSelection.group).style.border =
+      '1px solid black';
+  };
+
+const /* ********************************************* */
+  getBlobColorData = function (blobColor) {
+    const shadeData = {};
+
+    shadeData.hue = blobColor.substring(0, 3);
+    shadeData.saturation = blobColor.substring(3, 6);
+    shadeData.luminance = blobColor.substring(6, 10);
+
+    return shadeData;
+  };
+
+const /* ********************************************* */
+  markBlobWithCursor = function (type, hue) {
+    // type can be either 'group', 'single' or 'shade'
+    document.getElementById('blob-' + type + '-' + hue).style.border =
+      '4px solid black';
+  };
+
+const /* ********************************************* */
+  updateSinglesPalette = function (blobType, blobColor) {
+    const hue = getBlobColorData(blobColor).hue;
+    if (blobType === 'group') {
+      //
+      let oldGroupColor = getBlobData(currentSelection.group).blobColor;
+      const oldSingleColorArray = createSingleColorArray(oldGroupColor);
+
+      const newSingleColorArray = createSingleColorArray(hue);
+
+      clearSingleSelection();
+      updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
+
+      currentSelection.group = 'blob-group-' + hue;
+      currentSelection.single = 'blob-single-' + hue;
+
+      updateColorResultDisplay(blobColor);
+
+      if (hue === '000') currentSelection.shade = `blob-shade-360100050`;
+      else currentSelection.shade = `blob-shade-${hue}100050`;
+      currentSelection.single = 'blob-single-' + hue;
+    } else if (blobType === 'single') {
+      clearSingleSelection();
+      markBlobWithCursor('single', hue);
+
+      currentSelection.single = 'blob-single-' + hue;
+
+      updateShadesPalette('single', blobColor);
+    }
   };
 
 const /* ********************************************* */
@@ -70,108 +140,113 @@ const /* ********************************************* */
   };
 
 const /* ********************************************* */
-  updateColorPalette = function (blobType, blobColor) {
-    if (blobType === 'group') updateGroupsPalette('group', blobColor);
-    else if (blobType === 'single') updateSinglesPalette('single', blobColor);
-    else if (blobType === 'shade') updateShadesPalette('shade', blobColor);
-  };
+  createSingleColorArray = function (groupColor) {
+    let singleColorArray = [];
+    let colorIndex = 0;
 
-const /* ********************************************* */
-  updateGroupsPalette = function (blobType, blobColor) {
-    clearGroupSelection();
-    const hue = getBlobColorData(blobColor).hue;
-    markBlobWithCursor(blobType, hue);
-    updateSinglesPalette(blobType, blobColor);
-  };
+    let baseColor = Number(groupColor);
 
-const /* ********************************************* */
-  markBlobWithCursor = function (type, hue) {
-    // type can be either 'group', 'single' or 'shade'
-    document.getElementById('blob-' + type + '-' + hue).style.border =
-      '4px solid black';
-  };
-
-const /* ********************************************* */
-  updateSinglesPalette = function (blobType, blobColor) {
-    const hue = getBlobColorData(blobColor).hue;
-    if (blobType === 'group') {
-      const newSingleColorArray = createNewSingleColorArray(hue);
-      const oldSingleColorArray = createOldSingleColorArray();
-
-      clearSingleSelection();
-      updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
-      /* I AM HERE */
-      currentSelection.group = 'blob-group-' + hue;
-      currentSelection.single = 'blob-single-' + hue;
-
-      console.log('blob|Color[group] : blobColor', blobColor);
-      updateColorResultDisplay(blobColor);
-
-      if (hue === '000') currentSelection.shade = `blob-shade-360100050`;
-      else currentSelection.shade = `blob-shade-${hue}100050`;
-      currentSelection.single = 'blob-single-' + hue;
-    } else if (blobType === 'single') {
-      clearSingleSelection();
-      markBlobWithCursor('single', hue);
-
-      currentSelection.single = 'blob-single-' + hue;
-
-      updateShadesPalette('single', blobColor);
-    }
-  };
-
-// :DRY: - see createOldSingleColorArray
-const /* ********************************************* */
-  createNewSingleColorArray = function (newGroupColor) {
-    let newSingleColorArray = [];
-    let newColorIndex = 0;
-
-    let newBaseColor = Number(newGroupColor);
-
-    // NOTE (b1/2)
-    //  the HSL color space is circular, before 0deg comes 359deg and after 360deg comes 1deg
-    // this code handles that by making sure we go from 259 to 360 to 1 and viceversa
-    // same for createOldSingleColorArray() see note (b2/2)
-    for (let i = -14; i <= 14; i++) {
-      newColorIndex = 14 + i;
-      if (newBaseColor + i < 0) {
-        newSingleColorArray[newColorIndex] = 360 - newBaseColor + i;
-      } else if (newBaseColor + i > 360) {
-        newSingleColorArray[newColorIndex] = i;
-      } else if (newBaseColor + i === 0) {
-        newSingleColorArray[newColorIndex] = 360;
-      } else {
-        newSingleColorArray[newColorIndex] = newBaseColor + i;
-      }
-    }
-    return newSingleColorArray;
-  };
-
-// :DRY: - see createNewSingleColorArray
-const /* ********************************************* */
-  createOldSingleColorArray = function () {
-    let oldSingleColorArray = [];
-    let oldColorIndex = 0;
-
-    // NOTE (b2/2)
-    // same case as indicated in note (b1/2) for createNewSingleColorArray()
-
-    let oldBaseColor = Number(getBlobData(currentSelection.group).blobColor);
+    // NOTE (a)
+    //
+    //  the HSL color space is circular, before 0 degrees comes 359 degrees
+    //  and after 360 degrees comes 1 degree
+    //
+    // this code handles that by making sure we go from 359 to 360 to 1 and viceversa
+    // also, see note (b)
 
     for (let i = -14; i <= 14; i++) {
-      oldColorIndex = 14 + i;
-      if (oldBaseColor + i < 0) {
-        oldSingleColorArray[oldColorIndex] = 360 - oldBaseColor + i;
-      } else if (oldBaseColor + i > 360) {
-        oldSingleColorArray[oldColorIndex] = i;
-      } else if (oldBaseColor + i === 0) {
-        oldSingleColorArray[oldColorIndex] = 360;
+      colorIndex = 14 + i;
+      if (baseColor + i < 0) {
+        singleColorArray[colorIndex] = 360 - baseColor + i;
+      } else if (baseColor + i > 360) {
+        singleColorArray[colorIndex] = i;
+      } else if (baseColor + i === 0) {
+        singleColorArray[colorIndex] = 360;
       } else {
-        oldSingleColorArray[oldColorIndex] = oldBaseColor + i;
+        singleColorArray[colorIndex] = baseColor + i;
       }
     }
-    return oldSingleColorArray;
+    return singleColorArray;
   };
+
+const /* ********************************************* */
+  clearSingleSelection = function () {
+    // NOTE (b)
+
+    // a red blob with a 'blob-group-0' id is present in the blob-group set,
+    // this is to allow having a red blob displayed at both ends of the blob-group set.
+    // however, internally, this has to be handled as a special case in this code block
+    // by changing its id to blob 'blob-group-360', so that the single colors set
+    // is updated accordingly
+
+    // this problem originates from the fact that only one element can have the
+    // 'blob-group-360' id and, therefore, the first blob representing color 360 has the
+    // 'blob-group-0' id
+
+    // this handles the exception when group blob color is 0, but single blob color is 360:
+    if (currentSelection.single === 'blob-single-000')
+      currentSelection.single = 'blob-single-360';
+
+    document.getElementById(currentSelection.single).style.border =
+      '1px solid black';
+  };
+
+const /* ********************************************* */
+  updateColorResultDisplay = function (blobColor) {
+    // convert to number with the + sign and then back to string to remove leading zeros
+    const resultHue = +blobColor.substring(0, 3).toString();
+    const resultSaturation = +blobColor.substring(3, 6).toString();
+    const resultLuminance = +blobColor.substring(6, 10).toString();
+
+    document.getElementById('large-blob').style.backgroundColor =
+      'hsl(' +
+      resultHue +
+      ', ' +
+      resultSaturation +
+      '%, ' +
+      resultLuminance +
+      '%)';
+
+    document.getElementById(
+      'hsl-result'
+    ).textContent = `HSL = (${resultHue}, ${resultSaturation}%,${resultLuminance}%)`;
+    currentSelection.shade = `blob-shade-${blobColor}`;
+
+    // Convert hsl to hex (convert arguments to number using the + sign)
+    const hexResult = hslToHex(+resultHue, +resultSaturation, +resultLuminance);
+
+    document.getElementById('hex-result').textContent = `HEX = #${hexResult}`;
+  };
+
+const /* ********************************************* */
+  hslToHex = function (hue, saturation, luminance) {
+    const rgb = hslToRgb(hue, saturation, luminance);
+    const hex = rgbToHex(...rgb);
+
+    // round the result to an integer hexadecimal number
+    // by converting to decimal and back to hex
+    let decimal = Math.round(parseInt(hex, 16));
+    let roundedHex = decimal.toString(16);
+
+    return roundedHex.padStart(6, '0');
+  };
+
+const /* ********************************************* */
+  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
+  hslToRgb = (h, s, l) => {
+    s /= 100;
+    l /= 100;
+    const k = n => (n + h / 30) % 12;
+    const a = s * Math.min(l, 1 - l);
+    const f = n =>
+      l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
+    return [255 * f(0), 255 * f(8), 255 * f(4)];
+  };
+
+const /* ********************************************* */
+  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
+  rgbToHex = (r, g, b) =>
+    ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 
 const /* ********************************************* */
   updateSinglesPaletteDisplay = function (
@@ -206,6 +281,7 @@ const /* ********************************************* */
     for (let i = 0; i <= 28; i++) {
       singleBlobLabelId = `sbl${i}`;
 
+      // update the labels of the single color blobs palette to the new blob hue
       document.getElementById(singleBlobLabelId).innerText =
         newSingleColorArray[i].toString();
     }
@@ -241,7 +317,6 @@ const /* ********************************************* */
       clearSelectedShadeLabels();
       markSelectedShadeLabels(newShade);
 
-      console.log('blob|Color[single] : blobColor', blobColor);
       updateColorResultDisplay(blobColor);
     } else if (origin === 'shade') {
       clearShadeSelection();
@@ -250,68 +325,9 @@ const /* ********************************************* */
       clearSelectedShadeLabels();
       markSelectedShadeLabels(blobColor);
 
-      console.log('blob|Color[shade] : blobColor', blobColor);
       updateColorResultDisplay(blobColor);
     }
   };
-
-const /* ********************************************* */
-  updateColorResultDisplay = function (blobColor) {
-    // convert to number with the + sign and then back to string to remove leading zeros
-    const resultHue = +blobColor.substring(0, 3).toString();
-    const resultSaturation = +blobColor.substring(3, 6).toString();
-    const resultLuminance = +blobColor.substring(6, 10).toString();
-
-    document.getElementById('large-blob').style.backgroundColor =
-      'hsl(' +
-      resultHue +
-      ', ' +
-      resultSaturation +
-      '%, ' +
-      resultLuminance +
-      '%)';
-
-    document.getElementById(
-      'hsl-result'
-    ).textContent = `HSL = (${resultHue}, ${resultSaturation}%,${resultLuminance}%)`;
-    currentSelection.shade = `blob-shade-${blobColor}`;
-
-    // Convert hsl to hex (convert arguments to number using the + sign)
-    const hexResult = hslToHex(+resultHue, +resultSaturation, +resultLuminance);
-
-    document.getElementById('hex-result').textContent = `HEX = #${hexResult}`;
-  };
-
-const /* ********************************************* */
-  hslToHex = function (hue, saturation, luminance) {
-    const rgb = hslToRgb(hue, saturation, luminance);
-    console.log(rgb);
-    const hex = rgbToHex(...rgb);
-
-    // round the result to an integer hexadecimal number
-    // by converting to decimal and back to hex
-    let decimal = Math.round(parseInt(hex, 16));
-    let roundedHex = decimal.toString(16);
-    console.log(roundedHex);
-    return roundedHex.padStart(6, '0');
-  };
-
-const /* ********************************************* */
-  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
-  hslToRgb = (h, s, l) => {
-    s /= 100;
-    l /= 100;
-    const k = n => (n + h / 30) % 12;
-    const a = s * Math.min(l, 1 - l);
-    const f = n =>
-      l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-    return [255 * f(0), 255 * f(8), 255 * f(4)];
-  };
-
-const /* ********************************************* */
-  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
-  rgbToHex = (r, g, b) =>
-    ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 
 const /* ********************************************* */
   updateShadesPaletteDisplay = function (oldColor, newColor) {
@@ -350,34 +366,6 @@ const /* ********************************************* */
         ).style.backgroundColor = `hsl(${newColor}, ${ss}%, ${ll}%)`;
       }
     }
-  };
-
-const /* ********************************************* */
-  clearGroupSelection = function () {
-    document.getElementById(currentSelection.group).style.border =
-      '1px solid black';
-  };
-
-const /* ********************************************* */
-  clearSingleSelection = function () {
-    // NOTE (a1/2)
-
-    // a red blob with a 'blob-group-0' id is present in the blob-group set,
-    // this is to allow having a red blob displayed at both ends of the blob-group set.
-    // however, internally, this has to be handled as a special case in this code block
-    // by changing its id to blob 'blob-group-360', so that the single colors set
-    // is updated accordingly
-
-    // this problem originates from the fact that only one element can have the
-    // 'blob-group-360' id and, therefore, the first blob representing color 360 has the
-    // 'blob-group-0' id
-
-    // handle the exception when group blob color is 0, but single blob color is 360:
-    if (currentSelection.single === 'blob-single-000')
-      currentSelection.single = 'blob-single-360';
-
-    document.getElementById(currentSelection.single).style.border =
-      '1px solid black';
   };
 
 const /* ********************************************* */
@@ -424,17 +412,6 @@ const /* ********************************************* */
     currentSelection.shadeLuminanceLabel = luminanceLabelId;
   };
 
-const /* ********************************************* */
-  getBlobColorData = function (blobColor) {
-    const shadeData = {};
-
-    shadeData.hue = blobColor.substring(0, 3);
-    shadeData.saturation = blobColor.substring(3, 6);
-    shadeData.luminance = blobColor.substring(6, 10);
-
-    return shadeData;
-  };
-
 /* #############################################
      program logic
    ############################################# */
@@ -479,13 +456,11 @@ document.querySelector('body').addEventListener('click', function (event) {
      developer notes
    ############################################# */
 
-//
+// change blob cursor color based on blob's color for better contrast
 
 /* #############################################
      HIGHLIGHT TAGS & SNIPPETS
    ############################################# */
-
-// document
 
 // background-color
 
@@ -505,7 +480,7 @@ document.querySelector('body').addEventListener('click', function (event) {
 
 // :DOING: /doi
 
-// :DONE: /don
+// :OK: /ok
 
 // :BUG: /bug
 
