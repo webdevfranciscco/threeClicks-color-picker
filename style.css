@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -72,7 +74,9 @@ h3 {
 }
 
 #color-space {
-  justify-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 600px;
 }
 
 #palette {
@@ -110,7 +114,7 @@ h3 {
 /* ********************************************* */
 
 .horizontal-text {
-  margin-top: 0.6rem;
+  margin-top: 1.2rem;
 }
 
 /* ********************************************* */
@@ -135,7 +139,7 @@ h3 {
 
 .vertical-text {
   transform: rotate(-90deg);
-  margin-left: 0.7rem;
+  margin-left: 1.8rem;
   margin-top: 0.5rem;
 }
 
