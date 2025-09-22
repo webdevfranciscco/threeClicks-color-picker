@@ -232,8 +232,9 @@ const /* ********************************************* */
   };
 
 const /* ********************************************* */
-  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
   hslToRgb = (h, s, l) => {
+    // this code comes from here:
+    // https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/
     s /= 100;
     l /= 100;
     const k = n => (n + h / 30) % 12;
@@ -244,8 +245,9 @@ const /* ********************************************* */
   };
 
 const /* ********************************************* */
-  /* this code from here:https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/ */
   rgbToHex = (r, g, b) =>
+    // this code comes from here:
+    // https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/
     ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 
 const /* ********************************************* */
@@ -343,6 +345,7 @@ const /* ********************************************* */
       ss = s.toString().padStart(3, '0');
       for (let l = 0; l <= 100; l += 10) {
         ll = l.toString().padStart(3, '0');
+
         currentId =
           'blob-shade-' + oldColor.toString().padStart(3, '0') + ss + ll;
         temporaryId = 'blob-shade-777' + ss + ll;
@@ -356,6 +359,7 @@ const /* ********************************************* */
       ss = s.toString().padStart(3, '0');
       for (let l = 0; l <= 100; l += 10) {
         ll = l.toString().padStart(3, '0');
+
         temporaryId = 'blob-shade-777' + ss + ll;
         newId = 'blob-shade-' + newColor.toString().padStart(3, '0') + ss + ll;
 
