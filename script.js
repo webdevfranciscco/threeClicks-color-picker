@@ -21,13 +21,13 @@ let newSelection = {};
 const /* ********************************************* */
   markInitialSelection = function () {
     document.getElementById(currentSelection.group).style.border =
-      '0.6em solid black';
+      '0.8em solid black';
 
     document.getElementById(currentSelection.single).style.border =
-      '0.6em solid black';
+      '0.8em solid black';
 
     document.getElementById(currentSelection.shade).style.border =
-      '0.6em solid black';
+      '0.8em solid black';
   };
 
 const /* ********************************************* */
@@ -88,7 +88,7 @@ const /* ********************************************* */
   markBlobWithCursor = function (type, hue) {
     // type can be either 'group', 'single' or 'shade'
     document.getElementById('blob-' + type + '-' + hue).style.border =
-      '0.6em solid black';
+      '0.8em solid black';
   };
 
 const /* ********************************************* */
