@@ -22,6 +22,7 @@ h1 {
   font-weight: 900;
   color: hsl(270, 100%, 40%);
   letter-spacing: -3px;
+  margin-top: 1em;
 }
 
 h2 {
