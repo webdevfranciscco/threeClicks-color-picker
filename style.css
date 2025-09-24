@@ -8,10 +8,6 @@ html {
   color-scheme: light;
 }
 
-header {
-  margin-left: 5%;
-}
-
 h1,
 h2 {
   font-family: 'Courier New', Courier, monospace;
@@ -50,7 +46,6 @@ h3 {
 #color-values-container {
   width: 100%;
   text-align: center;
-  margin-left: 3%;
 }
 
 #color-values {
@@ -92,7 +87,6 @@ h3 {
   min-height: 350px;
   max-width: 600px;
   max-height: 600px;
-  margin-left: 4.8%;
   /*
   max-width: calc(100vh - 20em);
   max-height: calc(100vh - 20em);
