@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  line-height: 1;
 }
 
 html {
@@ -38,14 +39,14 @@ h3 {
   text-wrap: pretty;
 }
 
-#color-values {
-  display: inline-flex;
-  align-items: center;
-}
-
 #color-values-container {
   width: 100%;
   text-align: center;
+}
+
+#color-values {
+  display: inline-flex;
+  align-items: center;
 }
 
 #color-values p {
@@ -67,7 +68,13 @@ h3 {
 #color-space {
   display: flex;
   justify-content: center;
-  min-height: 600px;
+}
+
+#palette-container {
+  display: flex;
+  justify-content: space-around;
+  width: 60vw;
+  height: 60vw;
 }
 
 #palette {
@@ -77,17 +84,11 @@ h3 {
   /**************************************************
   this code makes a perfectly squared palette grid
   *************************************************/
-  width: 95vw;
-  height: 95vw;
-  min-width: 350px;
-  min-height: 350px;
-  max-width: 600px;
-  max-height: 600px;
-  /*
-  max-width: calc(100vh - 20em);
-  max-height: calc(100vh - 20em);
-  */
+  width: 100%;
+  height: 100%;
+
   display: grid;
+  justify-content: center;
   grid-template-columns: repeat(17, 5.56%);
   grid-template-rows: repeat(17, 5.56%);
   text-align: center;
@@ -97,30 +98,27 @@ h3 {
 
 .blob {
   border: 1px solid black;
-  padding: 5px;
   border-radius: 25%;
 }
 
 /* ********************************************* */
 
 .horizontal-text {
-  margin-top: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40%;
 }
-
-/* ********************************************* */
 
 .horizontal-text-shade {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-}
-
-.horizontal-text-shade > p {
-  margin: 16px;
+  margin-bottom: 40%;
 }
 
 #h040 {
-  /* font-weight: 900; */
+  font-weight: 900;
   text-shadow: 0px 0px 10px hsl(270, 100%, 50%);
   color: hsl(270, 100%, 50%);
 }
@@ -128,30 +126,40 @@ h3 {
 /* ********************************************* */
 
 .vertical-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transform: rotate(-90deg);
-  margin-left: 1.8rem;
-  margin-top: 0.5rem;
+  margin-left: 40%;
 }
-
-/* ********************************************* */
 
 .vertical-text-shade {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-}
-
-.vertical-text-shade > p {
-  width: 30px;
-  height: 1rem;
+  justify-content: center;
   transform: rotate(-90deg);
-  margin-right: 5px;
+  margin-right: 40%;
 }
 
 #v070 {
-  /* font-weight: 900; */
+  font-weight: 900;
   text-shadow: 0px 0px 10px hsl(270, 100%, 50%);
   color: hsl(270, 100%, 50%);
 }
 
 /* ********************************************* */
+
+/* temporary code storage                              */
+/* this is code that needs revision or could be reused */
+
+/* 
+     code removed from [ #palette ]
+
+     min-width: 350px;
+     min-height: 350px;
+     max-width: 600px;
+     cmax-height: 600px;
+
+     max-width: calc(100vh - 20em);
+     max-height: calc(100vh - 20em);
+  */
