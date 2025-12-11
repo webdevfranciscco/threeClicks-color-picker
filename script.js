@@ -21,35 +21,35 @@ function glblColorSelectionStateClosure() {
   };
 
   return {
-    getGroup: function (newValue) {
+    getGroup: function () {
       return glblColorSelection.group;
     },
     setGroup: function (newValue) {
       glblColorSelection.group = newValue;
       return glblColorSelection.group;
     },
-    getSingle: function (newValue) {
+    getSingle: function () {
       return glblColorSelection.single;
     },
     setSingle: function (newValue) {
       glblColorSelection.single = newValue;
       return glblColorSelection.single;
     },
-    getShade: function (newValue) {
+    getShade: function () {
       return glblColorSelection.shade;
     },
     setShade: function (newValue) {
       glblColorSelection.shade = newValue;
       return glblColorSelection.shade;
     },
-    getSaturation: function (newValue) {
+    getSaturation: function () {
       return glblColorSelection.saturation;
     },
     setSaturation: function (newValue) {
       glblColorSelection.saturation = newValue;
       return glblColorSelection.saturation;
     },
-    getLuminance: function (newValue) {
+    getLuminance: function () {
       return glblColorSelection.luminance;
     },
     setLuminance: function (newValue) {
