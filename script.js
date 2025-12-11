@@ -10,7 +10,9 @@ const glblColorSelection = glblColorSelectionStateClosure();
    functions
    ############################################# */
 
-/** This closure manages the selected color state */
+/**
+ *  This closure manages the selected color state
+ */
 function glblColorSelectionStateClosure() {
   let glblColorSelection = {
     group: 'blob-group-285',
@@ -78,8 +80,10 @@ const /* ********************************************* */
       const blobType = blobData.blobType;
       let blobColor = blobData.blobColor;
 
-      /** standardize blobColor and set to default shade     */
-      /** (maximum saturation & middle luminance, 100%, 50%) */
+      /**
+       *  standardize blobColor string length and set to default shade
+       *  (maximum saturation & middle luminance, 100%, 50%)
+       */
       if (blobType === 'single' || blobType === 'group')
         blobColor = blobColor.padStart(3, '0') + '100050';
 
@@ -127,7 +131,9 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   markBlobWithCursor = function (type, hue) {
-    // type can be either 'group', 'single' or 'shade'
+    /**
+     *  type can be either 'group', 'single' or 'shade'
+     */
     document.getElementById('blob-' + type + '-' + hue).style.border =
       '0.8em solid black';
   };
@@ -188,15 +194,15 @@ const /* ********************************************* */
     let baseColor = Number(groupColor);
 
     /**
-       NOTE (a)
-      
-        the HSL color space is circular, before 0 degrees comes 359 degrees
-        and after 360 degrees comes 1 degree
-    
-       this code handles that by making sure we go from 359 to 360 to 1
-       and viceversa
-       also, see note (b)
-    */
+     *  NOTE (a)
+     *
+     *  the HSL color space is circular, before 0 degrees comes 359 degrees
+     *  and after 360 degrees comes 1 degree
+     *
+     *  this code handles that by making sure we go from 359 to 360 to 1
+     *  and viceversa
+     *  also, see note (b)
+     */
 
     for (let i = -14; i <= 14; i++) {
       colorIndex = 14 + i;
@@ -216,20 +222,22 @@ const /* ********************************************* */
 const /* ********************************************* */
   clearSingleSelection = function () {
     /**
-       NOTE (b)
-
-       a red blob with a 'blob-group-0' id is present in the blob-group set,
-       this is to allow having a red blob displayed at both ends of the blob-group set.
-       however, internally, this has to be handled as a special case in this code block
-       by changing its id to blob 'blob-group-360', so that the single colors set
-       is updated accordingly
-
-       this problem originates from the fact that only one element can have the
-       'blob-group-360' id and, therefore, the first blob representing color 360 has the
-       'blob-group-0' id
-
-       this handles the exception when group blob color is 0, but single blob color is 360:
-    */
+     *  NOTE (b)
+     *
+     *  a red blob with a 'blob-group-0' id is present in the blob-group set,
+     *  this is to allow having a red blob displayed at both ends of the
+     *  blob-group set.
+     *  however, internally, this has to be handled as a special case in this
+     *  code block by changing its id to blob 'blob-group-360', so that
+     *  the single colors set is updated accordingly
+     *
+     *  this problem originates from the fact that only one element can have the
+     *  'blob-group-360' id and, therefore, the first blob representing
+     *  color 360 has the 'blob-group-0' id
+     *
+     *  this handles the exception when group blob color is 0, but
+     *  single blob color is 360:
+     */
 
     if (glblColorSelection.getSingle() === 'blob-single-000')
       glblColorSelection.setSingle('blob-single-360');
@@ -240,7 +248,10 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   updateColorResultDisplay = function (blobColor) {
-    // convert to number with the + sign and then back to string to remove leading zeros
+    /**
+     *  convert to number with the + sign and then back to string to remove
+     *  leading zeros
+     */
     const resultHue = +blobColor.substring(0, 3).toString();
     const resultSaturation = +blobColor.substring(3, 6).toString();
     const resultLuminance = +blobColor.substring(6, 10).toString();
@@ -259,7 +270,9 @@ const /* ********************************************* */
     ).textContent = `HSL = (${resultHue}, ${resultSaturation}%,${resultLuminance}%)`;
     glblColorSelection.setShade(`blob-shade-${blobColor}`);
 
-    // Convert hsl to hex (convert arguments to number using the + sign)
+    /**
+     *  Convert hsl to hex (convert arguments to number using the + sign)
+     */
     const hexResult = hslToHex(+resultHue, +resultSaturation, +resultLuminance);
 
     document.getElementById('hex-result').textContent = `HEX = #${hexResult}`;
@@ -270,9 +283,10 @@ const /* ********************************************* */
     const rgb = hslToRgb(hue, saturation, luminance);
     const hex = rgbToHex(...rgb);
 
-    /**  round the result to an integer hexadecimal number
-         by converting to decimal and back to hex
-    */
+    /**
+     *  round the result to an integer hexadecimal number
+     *  by converting to decimal and back to hex
+     */
     let decimal = Math.round(parseInt(hex, 16));
     let roundedHex = decimal.toString(16);
 
@@ -281,9 +295,12 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   hslToRgb = (h, s, l) => {
-    /** this code comes from here:
+    /** 
+     *  this code comes from here:
+     * 
           https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/
-    */
+     *
+     */
     s /= 100;
     l /= 100;
     const k = n => (n + h / 30) % 12;
@@ -295,9 +312,12 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   rgbToHex = (r, g, b) =>
-    /** this code comes from here:
+    /** 
+     *  this code comes from here:
+     * 
           https://www.30secondsofcode.org/js/s/rgb-hex-hsl-hsb-color-format-conversion/
-    */
+     *
+     */
     ((r << 16) + (g << 8) + b).toString(16).padStart(6, '0');
 
 const /* ********************************************* */
@@ -309,7 +329,9 @@ const /* ********************************************* */
     let newHue = '';
     for (let i = 0; i <= 28; i++) {
       oldHue = oldSingleColorArray[i].toString().padStart(3, '0');
-      /** assign temporary ids to single blobs */
+      /**
+       *  assign temporary ids to single blobs
+       */
       document
         .getElementById('blob-single-' + oldHue)
         .setAttribute('id', 'temp-id-' + i);
@@ -317,14 +339,17 @@ const /* ********************************************* */
 
     for (let i = 0; i <= 28; i++) {
       newHue = newSingleColorArray[i].toString().padStart(3, '0');
-      /** change the old id for the new id
-          on each blob DOM element of the singles palette
-      */
+      /**
+       *  change the old id for the new id
+       *  on each blob DOM element of the singles palette
+       */
       document
         .getElementById('temp-id-' + i)
         .setAttribute('id', 'blob-single-' + newHue);
 
-      /** update the hue of the single color blobs */
+      /**
+       *  update the hue of the single color blobs
+       */
       document.getElementById('blob-single-' + newHue).style.backgroundColor =
         'hsl(' + newSingleColorArray[i] + ', 100%, 50%)';
     }
@@ -335,8 +360,8 @@ const /* ********************************************* */
       singleBlobLabelId = `sbl${i}`;
 
       /**
-         update the labels of the single color blobs palette to the new blob hue
-      */
+       *  update the labels of the single color blobs palette to the new blob hue
+       */
       document.getElementById(singleBlobLabelId).innerText =
         newSingleColorArray[i].toString();
     }
@@ -393,7 +418,9 @@ const /* ********************************************* */
     let temporaryId = '';
     let newId = '';
 
-    /** set all shade blobs to a temporary id */
+    /**
+     *  set all shade blobs to a temporary id
+     */
     for (let s = 0; s <= 100; s += 10) {
       ss = s.toString().padStart(3, '0');
       for (let l = 0; l <= 100; l += 10) {
@@ -403,11 +430,15 @@ const /* ********************************************* */
           'blob-shade-' + oldColor.toString().padStart(3, '0') + ss + ll;
         temporaryId = 'blob-shade-777' + ss + ll;
 
-        /** assign a temporary id to a shade blob */
+        /**
+         *  assign a temporary id to a shade blob
+         */
         document.getElementById(currentId).setAttribute('id', temporaryId);
       }
     }
-    /** set all shade blobs to the new id */
+    /**
+     *  set all shade blobs to the new id
+     */
     for (let s = 0; s <= 100; s += 10) {
       ss = s.toString().padStart(3, '0');
       for (let l = 0; l <= 100; l += 10) {
@@ -416,7 +447,9 @@ const /* ********************************************* */
         temporaryId = 'blob-shade-777' + ss + ll;
         newId = 'blob-shade-' + newColor.toString().padStart(3, '0') + ss + ll;
 
-        /** assign new id to a shade blob */
+        /**
+         *  assign new id to a shade blob
+         */
         document.getElementById(temporaryId).setAttribute('id', newId);
         document.getElementById(
           newId
@@ -474,31 +507,36 @@ const /* ********************************************* */
    ############################################# */
 
 /**
-   ***********************************
-   ** PROGRAM EXECUTION STARTS HERE **
-   ***********************************
-   
-    by marking the color blobs, corresponding to the 
-    initial color selection, with a black 4px border:
-    
-      currentSelection = {
-        group: 'blob-group-285',
-        single: 'blob-single-279',
-        shade: 'blob-shade-279070040',
-        saturation: 'v070',
-        luminance: 'h040',
-      };
-  
-*/
+ *  ***********************************
+ *  ** PROGRAM EXECUTION STARTS HERE **
+ *  ***********************************
+ *
+ *   by marking with a black 4px border the color blobs
+ *   corresponding to the initial color selection
+ *   (per HTML and CSS initial code) with ids as follows:
+ *
+ *     currentSelection = {
+ *       group: 'blob-group-285',
+ *       single: 'blob-single-279',
+ *       shade: 'blob-shade-279070040',
+ *       saturation: 'v070',
+ *       luminance: 'h040',
+ *     };
+ *
+ *   then...
+ */
 
 markInitialSelection();
 
 /**
-   a 'click' event listener is set up...
-  
-   upon clicking on the screen,
-   main() is called with the clicked element's id
-   as argument, starting the corresponding response   
+ *   ... a 'click' event listener is set up...
+ *
+ *   upon clicking on the UI, the clicked element's
+ *   id is passed as an argument to the main() function,
+ *   which executes the UI's update process...
+ *
+ *   once the update is done we are back to listenning
+ *   for the next click.
  */
 
 /* #############################################
@@ -515,7 +553,7 @@ document.querySelector('body').addEventListener('click', function (event) {
    developer notes
    ############################################# */
 
-// change blob cursor color based on blob's color for better contrast */
+// :TODO: change blob cursor color based on blob's color for better contrast */
 
 /* #############################################
    HIGHLIGHT TAGS & SNIPPETS
