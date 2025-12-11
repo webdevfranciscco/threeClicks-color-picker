@@ -1,30 +1,73 @@
 'use strict';
 
 /* #############################################
-     variables
+   variables
    ############################################# */
 
-let currentSelection = {
-  group: 'blob-group-285',
-  single: 'blob-single-279',
-  shade: 'blob-shade-279070040',
-  shadeSaturationLabel: 'v070',
-  shadeLuminanceLabel: 'h040',
-};
+const glblColorSelection = glblColorSelectionStateClosure();
 
 /* #############################################
-     functions
+   functions
    ############################################# */
+
+/** This closure manages the selected color state */
+function glblColorSelectionStateClosure() {
+  let glblColorSelection = {
+    group: 'blob-group-285',
+    single: 'blob-single-279',
+    shade: 'blob-shade-279070040',
+    saturation: 'v070',
+    luminance: 'h040',
+  };
+
+  return {
+    getGroup: function (newValue) {
+      return glblColorSelection.group;
+    },
+    setGroup: function (newValue) {
+      glblColorSelection.group = newValue;
+      return glblColorSelection.group;
+    },
+    getSingle: function (newValue) {
+      return glblColorSelection.single;
+    },
+    setSingle: function (newValue) {
+      glblColorSelection.single = newValue;
+      return glblColorSelection.single;
+    },
+    getShade: function (newValue) {
+      return glblColorSelection.shade;
+    },
+    setShade: function (newValue) {
+      glblColorSelection.shade = newValue;
+      return glblColorSelection.shade;
+    },
+    getSaturation: function (newValue) {
+      return glblColorSelection.saturation;
+    },
+    setSaturation: function (newValue) {
+      glblColorSelection.saturation = newValue;
+      return glblColorSelection.saturation;
+    },
+    getLuminance: function (newValue) {
+      return glblColorSelection.luminance;
+    },
+    setLuminance: function (newValue) {
+      glblColorSelection.luminance = newValue;
+      return glblColorSelection.luminance;
+    },
+  };
+}
 
 const /* ********************************************* */
   markInitialSelection = function () {
-    document.getElementById(currentSelection.group).style.border =
+    document.getElementById(glblColorSelection.getGroup()).style.border =
       '0.8em solid black';
 
-    document.getElementById(currentSelection.single).style.border =
+    document.getElementById(glblColorSelection.getSingle()).style.border =
       '0.8em solid black';
 
-    document.getElementById(currentSelection.shade).style.border =
+    document.getElementById(glblColorSelection.getShade()).style.border =
       '0.8em solid black';
   };
 
@@ -67,7 +110,7 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   clearGroupSelection = function () {
-    document.getElementById(currentSelection.group).style.border =
+    document.getElementById(glblColorSelection.getGroup()).style.border =
       '1px solid black';
   };
 
@@ -94,7 +137,7 @@ const /* ********************************************* */
     const hue = getBlobColorData(blobColor).hue;
     if (blobType === 'group') {
       //
-      let oldGroupColor = getBlobData(currentSelection.group).blobColor;
+      let oldGroupColor = getBlobData(glblColorSelection.getGroup()).blobColor;
       const oldSingleColorArray = createSingleColorArray(oldGroupColor);
 
       const newSingleColorArray = createSingleColorArray(hue);
@@ -102,19 +145,19 @@ const /* ********************************************* */
       clearSingleSelection();
       updateSinglesPaletteDisplay(oldSingleColorArray, newSingleColorArray);
 
-      currentSelection.group = 'blob-group-' + hue;
-      currentSelection.single = 'blob-single-' + hue;
+      glblColorSelection.setGroup('blob-group-' + hue);
+      glblColorSelection.setSingle('blob-single-' + hue);
 
       updateColorResultDisplay(blobColor);
 
-      if (hue === '000') currentSelection.shade = `blob-shade-360100050`;
-      else currentSelection.shade = `blob-shade-${hue}100050`;
-      currentSelection.single = 'blob-single-' + hue;
+      if (hue === '000') glblColorSelection.setShade(`blob-shade-360100050`);
+      else glblColorSelection.setShade(`blob-shade-${hue}100050`);
+      glblColorSelection.setSingle('blob-single-' + hue);
     } else if (blobType === 'single') {
       clearSingleSelection();
       markBlobWithCursor('single', hue);
 
-      currentSelection.single = 'blob-single-' + hue;
+      glblColorSelection.setSingle('blob-single-' + hue);
 
       updateShadesPalette('single', blobColor);
     }
@@ -188,10 +231,10 @@ const /* ********************************************* */
        this handles the exception when group blob color is 0, but single blob color is 360:
     */
 
-    if (currentSelection.single === 'blob-single-000')
-      currentSelection.single = 'blob-single-360';
+    if (glblColorSelection.getSingle() === 'blob-single-000')
+      glblColorSelection.setSingle('blob-single-360');
 
-    document.getElementById(currentSelection.single).style.border =
+    document.getElementById(glblColorSelection.getSingle()).style.border =
       '1px solid black';
   };
 
@@ -214,7 +257,7 @@ const /* ********************************************* */
     document.getElementById(
       'hsl-result'
     ).textContent = `HSL = (${resultHue}, ${resultSaturation}%,${resultLuminance}%)`;
-    currentSelection.shade = `blob-shade-${blobColor}`;
+    glblColorSelection.setShade(`blob-shade-${blobColor}`);
 
     // Convert hsl to hex (convert arguments to number using the + sign)
     const hexResult = hslToHex(+resultHue, +resultSaturation, +resultLuminance);
@@ -312,7 +355,7 @@ const /* ********************************************* */
     if (origin === 'single') {
       clearShadeSelection();
 
-      const currentShadeBlobId = currentSelection.shade;
+      const currentShadeBlobId = glblColorSelection.getShade();
       const oldColor = getBlobData(currentShadeBlobId).blobColor;
       const oldHue = getBlobColorData(oldColor).hue;
 
@@ -322,7 +365,7 @@ const /* ********************************************* */
 
       const newShade = `${newHue.toString().padStart(3, '0')}100050`;
 
-      currentSelection.shade = `blob-shade-${newShade}`;
+      glblColorSelection.setShade(`blob-shade-${newShade}`);
 
       markBlobWithCursor('shade', newShade);
 
@@ -384,19 +427,19 @@ const /* ********************************************* */
 
 const /* ********************************************* */
   clearShadeSelection = function () {
-    document.getElementById(currentSelection.shade).style.border =
+    document.getElementById(glblColorSelection.getShade()).style.border =
       '1px solid black';
   };
 
 const /* ********************************************* */
   clearSelectedShadeLabels = function () {
-    const saturationLabelId = currentSelection.shadeSaturationLabel;
+    const saturationLabelId = glblColorSelection.getSaturation();
 
     document.getElementById(saturationLabelId).style.fontWeight = '100';
     document.getElementById(saturationLabelId).style.color = 'black';
     document.getElementById(saturationLabelId).style.textShadow = 'none';
 
-    const luminanceLabelId = currentSelection.shadeLuminanceLabel;
+    const luminanceLabelId = glblColorSelection.getLuminance();
 
     document.getElementById(luminanceLabelId).style.fontWeight = '100';
     document.getElementById(luminanceLabelId).style.color = 'black';
@@ -413,7 +456,7 @@ const /* ********************************************* */
     document.getElementById(saturationLabelId).style.color =
       'hsl(270, 100%, 50%)';
 
-    currentSelection.shadeSaturationLabel = saturationLabelId;
+    glblColorSelection.setSaturation(saturationLabelId);
 
     const luminanceLabelId = `h${getBlobColorData(blobColor).luminance}`;
 
@@ -423,11 +466,11 @@ const /* ********************************************* */
     document.getElementById(luminanceLabelId).style.color =
       'hsl(270, 100%, 50%)';
 
-    currentSelection.shadeLuminanceLabel = luminanceLabelId;
+    glblColorSelection.setLuminance(luminanceLabelId);
   };
 
 /* #############################################
-     program logic
+   program logic
    ############################################# */
 
 /**
@@ -459,7 +502,7 @@ markInitialSelection();
  */
 
 /* #############################################
-      event listeners
+   event listeners
    ############################################# */
 
 document.querySelector('body').addEventListener('click', function (event) {
@@ -469,13 +512,13 @@ document.querySelector('body').addEventListener('click', function (event) {
 });
 
 /* #############################################
-     developer notes
+   developer notes
    ############################################# */
 
 // change blob cursor color based on blob's color for better contrast */
 
 /* #############################################
-     HIGHLIGHT TAGS & SNIPPETS
+   HIGHLIGHT TAGS & SNIPPETS
    ############################################# */
 
 // background-color
